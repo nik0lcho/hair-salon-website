@@ -116,7 +116,7 @@ class Review(models.Model):
     )
 
     rating = models.PositiveIntegerField(
-        choices=[(i, str(i)) for i in range(1, 5)],  # Choices from 1 to 5
+        choices=[(i, str(i)) for i in range(1, 6)],
         default=5
     )
 

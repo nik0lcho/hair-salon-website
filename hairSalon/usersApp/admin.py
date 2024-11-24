@@ -19,7 +19,7 @@ class ProfileAdmin(admin.ModelAdmin):
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('user', 'rating', 'created_at', 'approved')
     list_filter = ('rating', 'approved')
-    search_fields = 'user__email'
+    search_fields = ['user__email']
     fields = ('user', 'rating', 'content', 'approved')
 
     ordering = ('-created_at',)

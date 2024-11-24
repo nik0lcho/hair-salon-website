@@ -11,3 +11,7 @@ class Service(models.Model):
 
     def __str__(self):
         return f"{self.name} - ${self.price}|{self.duration}"
+
+    class Meta:
+        verbose_name = "Service"
+        verbose_name_plural = "Services"
