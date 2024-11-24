@@ -5,6 +5,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
+
+from hairSalon import settings
 from hairSalon.usersApp.managers import AppUserManager
 
 # Role choices
@@ -66,7 +68,7 @@ class Profile(models.Model):
     """
     Profile model for additional user information.
     """
-    user = models.OneToOneField(to=AppUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(to=AppUser, on_delete=models.CASCADE, related_name="profile")
     first_name = models.CharField(max_length=30, blank=False, null=False)
     last_name = models.CharField(max_length=30, blank=False, null=False)
 
@@ -101,3 +103,41 @@ def assign_user_to_group(sender, instance, created, **kwargs):
             print(f"Group '{group_name}' was created automatically.")
 
         print(f"User {instance.email} assigned to group '{group_name}'.")
+
+
+class Review(models.Model):
+    """
+    Model representing a review for a service.
+    """
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,  # this links to the custom user model
+        on_delete=models.CASCADE,
+        related_name='reviews'
+    )
+
+    rating = models.PositiveIntegerField(
+        choices=[(i, str(i)) for i in range(1, 5)],  # Choices from 1 to 5
+        default=5
+    )
+
+    # Review text content
+    content = models.TextField(
+        blank=True,  # Optional field for the review text
+        null=True
+    )
+
+    # Date the review was created
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    # Optional: whether the review has been approved for display
+    approved = models.BooleanField(default=True)
+
+    def __str__(self):
+        profile = getattr(self.user, 'profile', None)
+
+        return f"Review by {profile.first_name} {profile.last_name}"
+
+    class Meta:
+        verbose_name = "Review"
+        verbose_name_plural = "Reviews"
+        ordering = ['-created_at']
