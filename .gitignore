@@ -11,8 +11,10 @@ __pycache__/
 
 # Virtualenv
 .venv/
-.env/
-env/
+
+.env
+
+env
 venv/
 
 # System files
