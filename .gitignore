@@ -1,0 +1,24 @@
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+
+# Django stuff:
+*.log
+*.pot
+*.sqlite3
+*.db
+
+# Virtualenv
+.venv/
+.env/
+env/
+venv/
+
+# System files
+.DS_Store
+*.bak
+
+# IDE or Editor settings
+.idea/
+.vscode/
