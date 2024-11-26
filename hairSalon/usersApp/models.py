@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 
 from hairSalon import settings
 from hairSalon.usersApp.managers import AppUserManager
+from hairSalon.common.models import Service
 
 # Role choices
 ROLE_CHOICES = [
@@ -141,3 +142,31 @@ class Review(models.Model):
         verbose_name = "Review"
         verbose_name_plural = "Reviews"
         ordering = ['-created_at']
+
+
+class Appointment(models.Model):
+    """
+    Model for managing appointments in the salon.
+    """
+    client = models.ForeignKey(
+        settings.AUTH_USER_MODEL,  # links to the custom user model (client)
+        on_delete=models.CASCADE,
+        related_name='appointments'
+    )
+
+    service = models.ForeignKey(
+        to=Service,
+        on_delete=models.CASCADE,
+        related_name='appointments'
+    )
+
+    appointment_date = models.DateTimeField()
+
+    def __str__(self):
+        profile = getattr(self.client, 'profile', None)
+        return f"Appointment for {profile.first_name} {profile.last_name} on {self.appointment_date}"
+
+    class Meta:
+        verbose_name = "Appointment"
+        verbose_name_plural = "Appointments"
+        ordering = ['appointment_date']

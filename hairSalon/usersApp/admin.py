@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AppUser, Profile, Review
+from .models import AppUser, Profile, Review, Appointment
 
 
 @admin.register(AppUser)
@@ -22,4 +22,12 @@ class ReviewAdmin(admin.ModelAdmin):
     search_fields = ['user__email']
     fields = ('user', 'rating', 'content', 'approved')
 
-    ordering = ('-created_at',)
+    ordering = ['-created_at']
+
+
+@admin.register(Appointment)
+class AppointmentAdmin(admin.ModelAdmin):
+    list_display = ('client', 'appointment_date')
+    search_fields = ('client__email', 'service__name')
+    list_filter = ['service__name']
+    ordering = ['appointment_date']
