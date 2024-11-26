@@ -61,8 +61,8 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
         return f"{self.email} ({self.get_role_display()})"
 
     class Meta:
-        verbose_name = "App User"
-        verbose_name_plural = "App Users"
+        verbose_name = "User"
+        verbose_name_plural = "Users"
 
 
 class Profile(models.Model):
