@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 
 from hairSalon import settings
+from hairSalon.hairDressersApp.models import Schedule, TimeSlot
 from hairSalon.usersApp.managers import AppUserManager
 from hairSalon.common.models import Service
 
@@ -160,13 +161,33 @@ class Appointment(models.Model):
         related_name='appointments'
     )
 
-    appointment_date = models.DateTimeField()
+    schedule = models.ForeignKey(
+        to=Schedule,
+        on_delete=models.CASCADE,
+        related_name='appointments',
+        help_text="Select the schedule for this appointment"
+    )
+
+    time_slots = models.ForeignKey(
+        to=TimeSlot,
+        on_delete=models.CASCADE,
+        related_name='appointments'
+    )
 
     def __str__(self):
-        profile = getattr(self.client, 'profile', None)
-        return f"Appointment for {profile.first_name} {profile.last_name} on {self.appointment_date}"
+        return f"Appointment: {self.client} for {self.service} on {self.time_slots.date} {self.time_slots.start_time}"
 
     class Meta:
         verbose_name = "Appointment"
         verbose_name_plural = "Appointments"
-        ordering = ['appointment_date']
+        ordering = ['time_slots__date',]
+
+
+@receiver(post_save, sender=Appointment)
+def make_time_slot_unavailable(sender, instance, created, **kwargs):
+    """
+    Mark the associated TimeSlot as unavailable when an Appointment is created.
+    """
+    if created:
+        instance.time_slots.is_available = False
+        instance.time_slots.save()

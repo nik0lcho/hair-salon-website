@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import AppUser, Profile, Review, Appointment
+from django.http import JsonResponse
+
+from .models import AppUser, Profile, Review, Appointment, TimeSlot
 
 
 @admin.register(AppUser)
@@ -27,7 +29,18 @@ class ReviewAdmin(admin.ModelAdmin):
 
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('client', 'appointment_date')
-    search_fields = ('client__email', 'service__name')
-    list_filter = ['service__name']
-    ordering = ['appointment_date']
+    list_display = ('client', 'service', 'schedule', 'time_slots')
+    list_filter = ('schedule', 'service')
+    search_fields = ('client__email',)
+
+    class Media:
+        js = ('admin/js/schedule_timeslot_filter.js',)
+
+    def changelist_view(self, request, extra_context=None):
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' and 'schedule' in request.GET:
+            schedule_id = request.GET['schedule']
+            time_slots = TimeSlot.objects.filter(schedule_id=schedule_id)
+            return JsonResponse({
+                'time_slots': [{'id': ts.id, 'display': str(ts)} for ts in time_slots]
+            })
+        return super().changelist_view(request, extra_context=extra_context)
