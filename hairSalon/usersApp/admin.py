@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from django.http import JsonResponse
 
@@ -29,18 +30,25 @@ class ReviewAdmin(admin.ModelAdmin):
 
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('client', 'service', 'schedule', 'time_slots')
-    list_filter = ('schedule', 'service')
+    list_display = ('client', 'service', 'date', 'time_slots')
+    list_filter = ('service',)
     search_fields = ('client__email',)
 
     class Media:
         js = ('admin/js/schedule_timeslot_filter.js',)
 
     def changelist_view(self, request, extra_context=None):
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' and 'schedule' in request.GET:
-            schedule_id = request.GET['schedule']
-            time_slots = TimeSlot.objects.filter(schedule_id=schedule_id)
+        # Check if the request is an AJAX request and contains the 'date' parameter
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' and 'date' in request.GET:
+            selected_date = request.GET['date']
+
+            # Filter TimeSlots by the selected date
+            time_slots = TimeSlot.objects.filter(date=selected_date, is_available=True)
+
+            # Return the time slots as a JSON response
             return JsonResponse({
                 'time_slots': [{'id': ts.id, 'display': str(ts)} for ts in time_slots]
             })
+
+        # Call the parent class' changelist_view for normal handling
         return super().changelist_view(request, extra_context=extra_context)

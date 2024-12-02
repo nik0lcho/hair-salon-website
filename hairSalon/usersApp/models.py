@@ -161,12 +161,14 @@ class Appointment(models.Model):
         related_name='appointments'
     )
 
-    schedule = models.ForeignKey(
-        to=Schedule,
-        on_delete=models.CASCADE,
-        related_name='appointments',
-        help_text="Select the schedule for this appointment"
-    )
+    # schedule = models.ForeignKey(
+    #     to=Schedule,
+    #     on_delete=models.CASCADE,
+    #     related_name='appointments',
+    #     help_text="Select the schedule for this appointment"
+    # )
+
+    date = models.CharField(blank=False, null=False, help_text="YYYY-MM-DD")
 
     time_slots = models.ForeignKey(
         to=TimeSlot,

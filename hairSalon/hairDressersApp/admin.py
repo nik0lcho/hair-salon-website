@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import Schedule, TimeSlot
+from .models import Schedule, TimeSlot, DeactivateTimeSlots
 
 
 @admin.register(Schedule)
 class ScheduleAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'day_of_week', 'specific_date', 'start_time', 'end_time', 'is_active')
-    list_filter = ('day_of_week', 'specific_date', 'is_active')
-    search_fields = ('day_of_week', 'specific_date')
+    list_display = ('__str__', 'day_of_week', 'start_time', 'end_time', 'is_active')
+    list_filter = ('day_of_week', 'is_active')
+    search_fields = ('day_of_week',)
     actions = ['activate_schedules', 'deactivate_schedules']
 
     def activate_schedules(self, request, queryset):
@@ -19,9 +19,6 @@ class ScheduleAdmin(admin.ModelAdmin):
         self.message_user(request, "Selected schedules have been deactivated.")
     deactivate_schedules.short_description = "Deactivate selected schedules"
 
-    class Media:
-        js = ('admin/js/schedule_timeslot_filter.js',)  # Include your custom JS for dynamic filtering, if needed.
-
 
 @admin.register(TimeSlot)
 class TimeSlotAdmin(admin.ModelAdmin):
@@ -29,3 +26,10 @@ class TimeSlotAdmin(admin.ModelAdmin):
     list_filter = ('date', 'is_available', 'schedule')
     search_fields = ('date', 'schedule__day_of_week', 'schedule__specific_date')
     ordering = ('date', 'start_time')
+
+
+@admin.register(DeactivateTimeSlots)
+class DeactivateTimeSlotsAdmin(admin.ModelAdmin):
+    list_display = ('start_date', 'end_date', 'is_active', 'reason')
+    list_filter = ('is_active', 'start_date', 'end_date')
+    search_fields = ['reason', 'start_date', 'end_date']

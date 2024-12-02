@@ -1,25 +1,16 @@
-# Create your views here.
 from django.http import JsonResponse
+from datetime import datetime
 from .models import TimeSlot
 
 
 def get_timeslots(request):
-    schedule_id = request.GET.get('schedule_id')
-    date = request.GET.get('date')  # Optional specific date
+    date_str = request.GET.get('date')
+    try:
+        target_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        timeslots = TimeSlot.objects.filter(date=target_date, is_available=True)
 
-    if schedule_id:
-        timeslots = TimeSlot.objects.filter(schedule_id=schedule_id, is_available=True)
-
-        if date:
-            timeslots = timeslots.filter(date=date)
-
-        data = [
-            {
-                'id': slot.id,
-                'label': f"{slot.start_time.strftime('%H:%M')} - {'Available' if slot.is_available else 'Booked'}"
-            }
-            for slot in timeslots
-        ]
-        return JsonResponse(data, safe=False)
-
-    return JsonResponse([], safe=False)
+        return JsonResponse({
+            'time_slots': [{'id': ts.id, 'display': str(ts)} for ts in timeslots]
+        })
+    except (ValueError, TypeError):
+        return JsonResponse({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=400)

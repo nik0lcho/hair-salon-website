@@ -1,18 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const scheduleField = document.getElementById('id_schedule');
+    const dateField = document.getElementById('id_date');  // Assuming the field is named 'id_date'
     const timeSlotField = document.getElementById('id_time_slots'); // Ensure the ID matches your actual HTML
+    timeSlotField.innerHTML = ''
 
-    if (scheduleField) {
-        scheduleField.addEventListener('change', function() {
+    if (dateField) {
+        dateField.addEventListener('change', function() {
             fetchTimeSlots();
         });
     }
 
     function fetchTimeSlots() {
-        const scheduleId = scheduleField.value;
+        const selectedDate = dateField.value;
 
-        if (scheduleId) {
-            fetch(`/get-timeslots/?schedule_id=${scheduleId}`, {
+        if (selectedDate) {
+            fetch(`/get-timeslots/?date=${selectedDate}`, {
                 method: 'GET',
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
@@ -20,18 +21,19 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
-                // Clear and populate the timeSlotField
-                timeSlotField.innerHTML = '';
-                data.forEach(slot => {
+                console.log("Received data:", data);
+                const timeSlots = data.time_slots;
+                timeSlotField.innerHTML = ''// Adjust to match the response structure
+                timeSlots.forEach(slot => {
                     const option = document.createElement('option');
                     option.value = slot.id;
-                    option.textContent = slot.label;
+                    option.textContent = slot.display;
                     timeSlotField.appendChild(option);
                 });
             })
             .catch(error => console.error('Error fetching time slots:', error));
         } else {
-            timeSlotField.innerHTML = '';  // Clear if no schedule selected
+            timeSlotField.innerHTML = '';  // Clear if no date selected
         }
     }
 });

@@ -6,7 +6,7 @@ from .models import Service
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'duration')
-    list_filter = ('price', 'duration')
+    list_display = ('name', 'price',)
+    list_filter = ('price',)
     search_fields = ['name']
     ordering = ['name']

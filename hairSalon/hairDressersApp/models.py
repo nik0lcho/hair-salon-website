@@ -25,11 +25,6 @@ class Schedule(models.Model):
         blank=True,
         help_text="The recurring day of the week this schedule applies to. Leave blank for a specific date."
     )
-    specific_date = models.DateField(
-        null=True,
-        blank=True,
-        help_text="Specific date for this schedule. Overrides the weekly schedule for that date."
-    )
     start_time = models.TimeField(help_text="Start time of the working hours.")
     end_time = models.TimeField(help_text="End time of the working hours.")
     slot_duration = models.DurationField(
@@ -46,45 +41,38 @@ class Schedule(models.Model):
     )
 
     def __str__(self):
-        if self.specific_date:
-            return f"Specific Date: {self.specific_date} | {self.start_time} - {self.end_time}"
         return f"{self.day_of_week}: {self.start_time} - {self.end_time}"
 
-    def generate_time_slots(self, from_date=None, days_ahead=30):
+    def generate_time_slots(self, days_ahead=30):
         """
         Generate time slots for the next `days_ahead` days or a specific date.
+        Before generating, delete all old time slots for past dates.
         """
-        if self.specific_date:
-            # Generate only for the specific date
-            self._generate_slots_for_date(self.specific_date)
-            return
 
-        if not from_date:
-            from_date = date.today()
+        from_date = date.today()
+
+        # Delete old time slots
+        TimeSlot.objects.filter(schedule=self, date__lt=from_date).delete()
 
         end_date = from_date + timedelta(days=days_ahead)
-        current_date = from_date
+        target_dates = [
+            current_date for current_date in
+            (from_date + timedelta(days=i) for i in range((end_date - from_date).days + 1))
+            if current_date.strftime('%A') == self.day_of_week
+        ]
 
-        while current_date <= end_date:
-            if current_date.strftime('%A') == self.day_of_week and self.is_active:
-                self._generate_slots_for_date(current_date)
-            current_date += timedelta(days=1)
+        for target_date in target_dates:
+            current_time = datetime.combine(target_date, self.start_time)
+            end_time = datetime.combine(target_date, self.end_time)
 
-    def _generate_slots_for_date(self, target_date):
-        """
-        Generate time slots for a specific date.
-        """
-        current_time = datetime.combine(target_date, self.start_time)
-        end_time = datetime.combine(target_date, self.end_time)
-
-        while current_time + self.slot_duration <= end_time:
-            TimeSlot.objects.get_or_create(
-                date=current_time.date(),
-                start_time=current_time.time(),
-                schedule=self,
-                defaults={'is_available': True}
-            )
-            current_time += self.slot_duration
+            while current_time + self.slot_duration <= end_time:
+                TimeSlot.objects.get_or_create(
+                    date=current_time.date(),
+                    start_time=current_time.time(),
+                    schedule=self,
+                    defaults={'is_available': True}
+                )
+                current_time += self.slot_duration
 
 
 class TimeSlot(models.Model):
@@ -122,3 +110,35 @@ def generate_slots_for_schedule(sender, instance, created, **kwargs):
     """
     if instance.is_active:
         instance.generate_time_slots()
+
+
+class DeactivateTimeSlots(models.Model):
+    """
+    Represents a request to deactivate all time slots within a specific date range.
+    """
+    start_date = models.DateField(help_text="Start date for the period to deactivate time slots.")
+    end_date = models.DateField(help_text="End date for the period to deactivate time slots.")
+    reason = models.TextField(help_text="Optional reason for deactivating the time slots.", blank=True, null=True)
+    is_active = models.BooleanField(default=True, help_text="Indicates whether the deactivation is still active or not.")
+
+    def __str__(self):
+        return f"Deactivate Slots from {self.start_date} to {self.end_date}"
+
+    def deactivate_slots(self):
+        """
+        Deactivate all time slots within the specified date range.
+        """
+        # Deactivate all time slots within the date range
+        time_slots = TimeSlot.objects.filter(date__range=[self.start_date, self.end_date])
+        updated_count = time_slots.update(is_available=False)
+
+        return updated_count  # Return the count of updated slots
+
+    def save(self, *args, **kwargs):
+        # Optionally, deactivates time slots automatically when saved
+        super().save(*args, **kwargs)
+        if self.is_active:
+            self.deactivate_slots()
+
+    class Meta:
+        verbose_name_plural = "Deactivate Time Slots"
