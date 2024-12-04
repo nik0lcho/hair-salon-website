@@ -75,6 +75,18 @@ class Schedule(models.Model):
                 current_time += self.slot_duration
 
 
+class AvailableDate(models.Model):
+    date = models.DateField(unique=True, help_text="An available date for selection.")
+
+    def __str__(self):
+        return self.date.strftime('%Y-%m-%d')
+
+    class Meta:
+        verbose_name = "Available Date"
+        verbose_name_plural = "Available Dates"
+        ordering = ['date']
+
+
 class TimeSlot(models.Model):
     """
     Represents a specific time slot on a given date.

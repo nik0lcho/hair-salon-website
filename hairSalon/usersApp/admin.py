@@ -35,20 +35,5 @@ class AppointmentAdmin(admin.ModelAdmin):
     search_fields = ('client__email',)
 
     class Media:
-        js = ('admin/js/schedule_timeslot_filter.js',)
-
-    def changelist_view(self, request, extra_context=None):
-        # Check if the request is an AJAX request and contains the 'date' parameter
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest' and 'date' in request.GET:
-            selected_date = request.GET['date']
-
-            # Filter TimeSlots by the selected date
-            time_slots = TimeSlot.objects.filter(date=selected_date, is_available=True)
-
-            # Return the time slots as a JSON response
-            return JsonResponse({
-                'time_slots': [{'id': ts.id, 'display': str(ts)} for ts in time_slots]
-            })
-
-        # Call the parent class' changelist_view for normal handling
-        return super().changelist_view(request, extra_context=extra_context)
+        js = ('admin/js/schedule_timeslot_filter.js',
+              'admin/js/admin_date_filter.js',)

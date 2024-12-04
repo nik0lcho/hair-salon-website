@@ -14,3 +14,10 @@ def get_timeslots(request):
         })
     except (ValueError, TypeError):
         return JsonResponse({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=400)
+
+
+def get_available_dates(request):
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        available_dates = TimeSlot.objects.filter(is_available=True).values_list('date', flat=True).distinct()
+        return JsonResponse({'available_dates': list(available_dates)})
+    return JsonResponse({'error': 'Invalid request'}, status=400)

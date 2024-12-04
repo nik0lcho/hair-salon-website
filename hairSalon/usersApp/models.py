@@ -7,7 +7,7 @@ from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 
 from hairSalon import settings
-from hairSalon.hairDressersApp.models import Schedule, TimeSlot
+from hairSalon.hairDressersApp.models import Schedule, TimeSlot, AvailableDate
 from hairSalon.usersApp.managers import AppUserManager
 from hairSalon.common.models import Service
 
@@ -161,14 +161,11 @@ class Appointment(models.Model):
         related_name='appointments'
     )
 
-    # schedule = models.ForeignKey(
-    #     to=Schedule,
-    #     on_delete=models.CASCADE,
-    #     related_name='appointments',
-    #     help_text="Select the schedule for this appointment"
-    # )
-
-    date = models.CharField(blank=False, null=False, help_text="YYYY-MM-DD")
+    date = models.ForeignKey(
+        to=AvailableDate,
+        on_delete=models.CASCADE,
+        related_name='appointments',
+    )
 
     time_slots = models.ForeignKey(
         to=TimeSlot,

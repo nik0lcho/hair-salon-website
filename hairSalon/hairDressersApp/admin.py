@@ -24,7 +24,7 @@ class ScheduleAdmin(admin.ModelAdmin):
 class TimeSlotAdmin(admin.ModelAdmin):
     list_display = ('date', 'start_time', 'schedule', 'is_available')
     list_filter = ('date', 'is_available', 'schedule')
-    search_fields = ('date', 'schedule__day_of_week', 'schedule__specific_date')
+    search_fields = ('date', 'schedule__day_of_week')
     ordering = ('date', 'start_time')
 
 
