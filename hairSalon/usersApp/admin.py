@@ -35,4 +35,5 @@ class AppointmentAdmin(admin.ModelAdmin):
     search_fields = ('client__email',)
 
     class Media:
-        js = 'admin/js/appointment_logic.js'
+        js = ('admin/js/fetchAvailableDates.js',
+              'admin/js/fetchTimeSlots.js')

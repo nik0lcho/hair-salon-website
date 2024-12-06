@@ -23,7 +23,7 @@ def get_timeslots(request):
         if not date_id:
             raise ValueError("Date ID is required.")
 
-        timeslots = TimeSlot.objects.filter(date_id=date_id, is_available=True)
+        timeslots = TimeSlot.objects.filter(is_available=True, date_id=date_id,)
 
         return JsonResponse({
             'time_slots': [{'id': ts.id, 'display': str(ts)} for ts in timeslots]
