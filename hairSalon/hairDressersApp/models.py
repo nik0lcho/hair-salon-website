@@ -1,7 +1,19 @@
-from django.db import models
 from datetime import timedelta, date, datetime
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+
+class AvailableDate(models.Model):
+    date = models.DateField(unique=True, help_text="An available date for selection.")
+
+    def __str__(self):
+        return self.date.strftime('%Y-%m-%d')
+
+    class Meta:
+        verbose_name = "Available Date"
+        verbose_name_plural = "Available Dates"
+        ordering = ['date']
 
 
 class Schedule(models.Model):
@@ -44,77 +56,56 @@ class Schedule(models.Model):
         return f"{self.day_of_week}: {self.start_time} - {self.end_time}"
 
     def generate_time_slots(self, days_ahead=30):
-        """
-        Generate time slots for the next `days_ahead` days or a specific date.
-        Before generating, delete all old time slots for past dates.
-        """
-
         from_date = date.today()
-
-        # Delete old time slots
-        TimeSlot.objects.filter(schedule=self, date__lt=from_date).delete()
-
         end_date = from_date + timedelta(days=days_ahead)
-        target_dates = [
-            current_date for current_date in
-            (from_date + timedelta(days=i) for i in range((end_date - from_date).days + 1))
-            if current_date.strftime('%A') == self.day_of_week
-        ]
 
-        for target_date in target_dates:
-            current_time = datetime.combine(target_date, self.start_time)
-            end_time = datetime.combine(target_date, self.end_time)
+        for current_date in (from_date + timedelta(days=i) for i in range((end_date - from_date).days + 1)):
+            # Only process dates that match the schedule's day_of_week
+            if current_date.strftime('%A') != self.day_of_week:
+                continue
+
+            # Create or retrieve the AvailableDate
+
+            available_date, created = AvailableDate.objects.get_or_create(date=current_date)
+
+            # Generate time slots for this AvailableDate
+            current_time = datetime.combine(available_date.date, self.start_time)
+            end_time = datetime.combine(available_date.date, self.end_time)
 
             while current_time + self.slot_duration <= end_time:
                 TimeSlot.objects.get_or_create(
-                    date=current_time.date(),
+                    date=available_date,  # Linking the time slot to AvailableDate
                     start_time=current_time.time(),
-                    schedule=self,
-                    defaults={'is_available': True}
                 )
                 current_time += self.slot_duration
-
-
-class AvailableDate(models.Model):
-    date = models.DateField(unique=True, help_text="An available date for selection.")
-
-    def __str__(self):
-        return self.date.strftime('%Y-%m-%d')
-
-    class Meta:
-        verbose_name = "Available Date"
-        verbose_name_plural = "Available Dates"
-        ordering = ['date']
 
 
 class TimeSlot(models.Model):
     """
     Represents a specific time slot on a given date.
     """
-    date = models.DateField(help_text="The date of the time slot.")
+    date = models.ForeignKey(
+        to=AvailableDate,
+        on_delete=models.CASCADE,
+        related_name='time_slots',
+        help_text="The date of the time slot."
+    )
     start_time = models.TimeField(help_text="The start time of the time slot.")
     is_available = models.BooleanField(
         default=True,
         help_text="Whether this slot is available for booking."
     )
-    schedule = models.ForeignKey(
-        Schedule,
-        on_delete=models.CASCADE,
-        related_name="time_slots",
-        help_text="The schedule this time slot belongs to."
-    )
 
     def __str__(self):
-        weekday = self.date.strftime('%A')
+        weekday = self.date.date.strftime('%A')
         return f"{weekday} - {self.date} | {self.start_time} | {'Available' if self.is_available else 'Booked'}"
 
     class Meta:
         verbose_name = "Time Slot"
         verbose_name_plural = "Time Slots"
-        unique_together = ('date', 'start_time', 'schedule')
+        unique_together = ('date', 'start_time',)
 
 
-# Signal to generate time slots when a schedule is created or updated
 @receiver(post_save, sender=Schedule)
 def generate_slots_for_schedule(sender, instance, created, **kwargs):
     """
