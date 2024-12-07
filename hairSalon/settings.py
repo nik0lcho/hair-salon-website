@@ -145,5 +145,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'glamourlooknoreply@gmail.com'  # Replace with your email
-EMAIL_HOST_PASSWORD = 'dxpb hyhn jwfi srus'  # app password
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # app password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
