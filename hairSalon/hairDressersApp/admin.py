@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Schedule, TimeSlot, DeactivateTimeSlots
+from .models import Schedule, TimeSlot, Appointment
 
 
 @admin.register(Schedule)
@@ -27,9 +27,22 @@ class TimeSlotAdmin(admin.ModelAdmin):
     search_fields = ('date',)
     ordering = ('date', 'start_time')
 
+    actions = ['free_up_slot', 'book_slot']
 
-@admin.register(DeactivateTimeSlots)
-class DeactivateTimeSlotsAdmin(admin.ModelAdmin):
-    list_display = ('start_date', 'end_date', 'is_active', 'reason')
-    list_filter = ('is_active', 'start_date', 'end_date')
-    search_fields = ['reason', 'start_date', 'end_date']
+    def free_up_slot(self, request, queryset):
+        queryset.update(is_available=True)  # Deactivate selected slots
+        self.message_user(request, "Selected slots have been freed up.")
+
+    def book_slot(self, request, queryset):
+        queryset.update(is_available=False)  # Activate selected slots
+        self.message_user(request, "Selected slots have been booked.")
+
+
+@admin.register(Appointment)
+class AppointmentAdmin(admin.ModelAdmin):
+    list_display = ('client', 'service', 'date', 'time_slots')
+    list_filter = ('service',)
+
+    class Media:
+        js = ('admin/js/fetchAvailableDates.js',
+              'admin/js/fetchTimeSlots.js')

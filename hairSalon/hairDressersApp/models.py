@@ -1,7 +1,12 @@
 from datetime import timedelta, date, datetime
+
+from django.core.mail import send_mail
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from hairSalon import settings
+from hairSalon.common.models import Service
 
 
 class AvailableDate(models.Model):
@@ -115,33 +120,69 @@ def generate_slots_for_schedule(sender, instance, created, **kwargs):
         instance.generate_time_slots()
 
 
-class DeactivateTimeSlots(models.Model):
+class Appointment(models.Model):
     """
-    Represents a request to deactivate all time slots within a specific date range.
+    Model for managing appointments in the salon.
     """
-    start_date = models.DateField(help_text="Start date for the period to deactivate time slots.")
-    end_date = models.DateField(help_text="End date for the period to deactivate time slots.")
-    reason = models.TextField(help_text="Optional reason for deactivating the time slots.", blank=True, null=True)
-    is_active = models.BooleanField(default=True, help_text="Indicates whether the deactivation is still active or not.")
+    client = models.ForeignKey(
+        settings.AUTH_USER_MODEL,  # links to the custom user model (client)
+        on_delete=models.CASCADE,
+        related_name='appointments'
+    )
+
+    service = models.ForeignKey(
+        to=Service,
+        on_delete=models.CASCADE,
+        related_name='appointments'
+    )
+
+    date = models.ForeignKey(
+        to=AvailableDate,
+        on_delete=models.CASCADE,
+        related_name='appointments',
+    )
+
+    time_slots = models.ForeignKey(
+        to=TimeSlot,
+        on_delete=models.CASCADE,
+        related_name='appointments'
+    )
 
     def __str__(self):
-        return f"Deactivate Slots from {self.start_date} to {self.end_date}"
-
-    def deactivate_slots(self):
-        """
-        Deactivate all time slots within the specified date range.
-        """
-        # Deactivate all time slots within the date range
-        time_slots = TimeSlot.objects.filter(date__range=[self.start_date, self.end_date])
-        updated_count = time_slots.update(is_available=False)
-
-        return updated_count  # Return the count of updated slots
-
-    def save(self, *args, **kwargs):
-        # Optionally, deactivates time slots automatically when saved
-        super().save(*args, **kwargs)
-        if self.is_active:
-            self.deactivate_slots()
+        return f"Appointment: {self.client} for {self.service} on {self.time_slots.date} {self.time_slots.start_time}"
 
     class Meta:
-        verbose_name_plural = "Deactivate Time Slots"
+        verbose_name = "Appointment"
+        verbose_name_plural = "Appointments"
+        ordering = ['time_slots__date',]
+
+
+@receiver(post_save, sender=Appointment)
+def send_appointment_email(sender, instance, created, **kwargs):
+    if created:
+        # Fetch the user's email from the related user field
+        user_email = instance.client.email
+
+        # Email content
+        subject = "Appointment Confirmation"
+        message = (
+            f"Dear {instance.client.profile.first_name},\n\n"
+            f"Your appointment has been confirmed.\n"
+            f"Date: {instance.time_slots.date.date}\n"
+            f"Time: {instance.time_slots.start_time}\n\n"
+            f"Thank you for booking with us!"
+        )
+
+        # Send email
+        try:
+            send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user_email], fail_silently=False,)
+            print(f"Email sent successfully to {user_email}.")
+        except Exception as e:
+            print(f"Failed to send email to {user_email}: {str(e)}")
+
+
+@receiver(post_save, sender=Appointment)
+def mark_time_slot_as_booked(sender, instance, created, **kwargs):
+    if created:
+        instance.time_slots.is_available = False
+        instance.time_slots.save()

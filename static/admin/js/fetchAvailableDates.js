@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (dateField) {
         fetchAvailableDates();
-
+        
         // Add event listener for date change
         dateField.addEventListener('change', function () {
             const selectedDateId = dateField.value;

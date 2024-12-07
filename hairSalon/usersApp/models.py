@@ -82,31 +82,6 @@ class Profile(models.Model):
         verbose_name_plural = "Profiles"
 
 
-@receiver(post_save, sender=AppUser)
-def assign_user_to_group(sender, instance, created, **kwargs):
-    """
-    Assign users to existing groups based on their role after they are created.
-    If the group doesn't exist, create it automatically.
-    """
-    if created:
-        # Automatically create a profile for the user
-        Profile.objects.create(user=instance)
-
-        # Role to Group mapping
-        group_name = instance.role.capitalize()  # Ensure "admin", "staff", "client", "hairdresser" maps correctly
-
-        # Check if the group exists, and create it if necessary
-        group, created_group = Group.objects.get_or_create(name=group_name)
-
-        # Add the user to the corresponding group
-        instance.groups.add(group)
-
-        if created_group:
-            print(f"Group '{group_name}' was created automatically.")
-
-        print(f"User {instance.email} assigned to group '{group_name}'.")
-
-
 class Review(models.Model):
     """
     Model representing a review for a service.
@@ -145,48 +120,26 @@ class Review(models.Model):
         ordering = ['-created_at']
 
 
-class Appointment(models.Model):
+@receiver(post_save, sender=AppUser)
+def assign_user_to_group(sender, instance, created, **kwargs):
     """
-    Model for managing appointments in the salon.
-    """
-    client = models.ForeignKey(
-        settings.AUTH_USER_MODEL,  # links to the custom user model (client)
-        on_delete=models.CASCADE,
-        related_name='appointments'
-    )
-
-    service = models.ForeignKey(
-        to=Service,
-        on_delete=models.CASCADE,
-        related_name='appointments'
-    )
-
-    date = models.ForeignKey(
-        to=AvailableDate,
-        on_delete=models.CASCADE,
-        related_name='appointments',
-    )
-
-    time_slots = models.ForeignKey(
-        to=TimeSlot,
-        on_delete=models.CASCADE,
-        related_name='appointments'
-    )
-
-    def __str__(self):
-        return f"Appointment: {self.client} for {self.service} on {self.time_slots.date} {self.time_slots.start_time}"
-
-    class Meta:
-        verbose_name = "Appointment"
-        verbose_name_plural = "Appointments"
-        ordering = ['time_slots__date',]
-
-
-@receiver(post_save, sender=Appointment)
-def make_time_slot_unavailable(sender, instance, created, **kwargs):
-    """
-    Mark the associated TimeSlot as unavailable when an Appointment is created.
+    Assign users to existing groups based on their role after they are created.
+    If the group doesn't exist, create it automatically.
     """
     if created:
-        instance.time_slots.is_available = False
-        instance.time_slots.save()
+        # Automatically create a profile for the user
+        Profile.objects.create(user=instance)
+
+        # Role to Group mapping
+        group_name = instance.role.capitalize()  # Ensure "admin", "staff", "client", "hairdresser" maps correctly
+
+        # Check if the group exists, and create it if necessary
+        group, created_group = Group.objects.get_or_create(name=group_name)
+
+        # Add the user to the corresponding group
+        instance.groups.add(group)
+
+        if created_group:
+            print(f"Group '{group_name}' was created automatically.")
+
+        print(f"User {instance.email} assigned to group '{group_name}'.")

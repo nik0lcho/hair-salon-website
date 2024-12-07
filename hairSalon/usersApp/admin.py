@@ -1,8 +1,6 @@
-from django import forms
 from django.contrib import admin
-from django.http import JsonResponse
 
-from .models import AppUser, Profile, Review, Appointment, TimeSlot
+from .models import AppUser, Profile, Review
 
 
 @admin.register(AppUser)
@@ -26,14 +24,3 @@ class ReviewAdmin(admin.ModelAdmin):
     fields = ('user', 'rating', 'content', 'approved')
 
     ordering = ['-created_at']
-
-
-@admin.register(Appointment)
-class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('client', 'service', 'date', 'time_slots')
-    list_filter = ('service',)
-    search_fields = ('client__email',)
-
-    class Media:
-        js = ('admin/js/fetchAvailableDates.js',
-              'admin/js/fetchTimeSlots.js')
