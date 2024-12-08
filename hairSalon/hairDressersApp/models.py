@@ -52,10 +52,6 @@ class Schedule(models.Model):
         default=1,
         help_text="Maximum bookings allowed for each time slot."
     )
-    is_active = models.BooleanField(
-        default=True,
-        help_text="Indicates whether the schedule is currently active."
-    )
 
     def __str__(self):
         return f"{self.day_of_week}: {self.start_time} - {self.end_time}"
