@@ -1,85 +1,71 @@
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import PermissionsMixin, Group
-from django.core.mail import send_mail
-from django.db import models
+from django.contrib.auth.models import PermissionsMixin, Group, UserManager
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils.translation import gettext_lazy as _
-
 from hairSalon import settings
 from hairSalon.hairDressersApp.models import Schedule, TimeSlot, AvailableDate
-from hairSalon.usersApp.managers import AppUserManager
 from hairSalon.common.models import Service
-
-# Role choices
-ROLE_CHOICES = [
-    ('admin', 'Admin'),
-    ('staff', 'Staff'),
-    ('client', 'Client'),
-    ('hairdresser', 'Hairdresser'),
-]
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.db import models
 
 
 class AppUser(AbstractBaseUser, PermissionsMixin):
-    """
-    Custom user model for authentication with roles and permissions.
-    """
+
+    ROLE_ADMIN = 'admin'
+    ROLE_STAFF = 'staff'
+    ROLE_CLIENT = 'client'
+    ROLE_HAIRDRESSER = 'hairdresser'
+
+    ROLES = [
+        (ROLE_ADMIN, 'Admin'),
+        (ROLE_STAFF, 'Staff'),
+        (ROLE_CLIENT, 'Client'),
+        (ROLE_HAIRDRESSER, 'Hairdresser'),
+    ]
+
+    # Basic fields
     email = models.EmailField(unique=True)
-
-    is_staff = models.BooleanField(
-        _("staff status"),
-        default=False,
-        help_text="Designates whether the user can log into this admin site.",
-    )
-
-    is_active = models.BooleanField(
-        _("active"),
-        default=True,
-        help_text="Designates whether this user should be treated as active. "
-                  "Unselect this instead of deleting accounts.",
-    )
+    password = models.CharField(max_length=128)
 
     role = models.CharField(
         max_length=20,
-        choices=ROLE_CHOICES,
-        default='client',
+        choices=ROLES,
+        default=ROLE_CLIENT,
         help_text="Designates the role of the user.",
     )
 
-    objects = AppUserManager()
+    objects = UserManager()
 
-    EMAIL_FIELD = "email"
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    # Optional fields for user management
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
 
-    def email_user(self, subject, message, from_email=None, **kwargs):
-        """
-        Send an email to the user.
-        """
-        send_mail(subject, message, from_email, [self.email], **kwargs)
+    # Required fields for AbstractBaseUser
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
 
-    def __str__(self):
-        return f"{self.email} ({self.get_role_display()})"
-
-    class Meta:
-        verbose_name = "User"
-        verbose_name_plural = "Users"
-
-
-class Profile(models.Model):
-    """
-    Profile model for additional user information.
-    """
-    user = models.OneToOneField(to=AppUser, on_delete=models.CASCADE, related_name="profile")
-    first_name = models.CharField(max_length=30, blank=False, null=False)
-    last_name = models.CharField(max_length=30, blank=False, null=False)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []  # No other required fields, only email and password are needed.
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return self.email
 
     class Meta:
-        verbose_name = "Profile"
-        verbose_name_plural = "Profiles"
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+
+    @property
+    def is_client(self):
+        if self.role == AppUser.ROLE_CLIENT:
+            return True
+        return False
+
+    @property
+    def is_hairdresser(self):
+        if self.role == AppUser.ROLE_HAIRDRESSER:
+            return True
+        return False
 
 
 class Review(models.Model):
@@ -112,7 +98,7 @@ class Review(models.Model):
     def __str__(self):
         profile = getattr(self.user, 'profile', None)
 
-        return f"Review by {profile.first_name} {profile.last_name}"
+        return f"Review by {profile.first_name} {profile.last_name if profile.last_name else ''} on {self.created_at}"
 
     class Meta:
         verbose_name = "Review"
@@ -127,8 +113,6 @@ def assign_user_to_group(sender, instance, created, **kwargs):
     If the group doesn't exist, create it automatically.
     """
     if created:
-        # Automatically create a profile for the user
-        Profile.objects.create(user=instance)
 
         # Role to Group mapping
         group_name = instance.role.capitalize()  # Ensure "admin", "staff", "client", "hairdresser" maps correctly

@@ -109,11 +109,7 @@ class TimeSlot(models.Model):
 
 @receiver(post_save, sender=Schedule)
 def generate_slots_for_schedule(sender, instance, created, **kwargs):
-    """
-    Generate time slots when a schedule is created or updated.
-    """
-    if instance.is_active:
-        instance.generate_time_slots()
+    instance.generate_time_slots()
 
 
 class Appointment(models.Model):
@@ -162,7 +158,7 @@ def send_appointment_email(sender, instance, created, **kwargs):
         # Email content
         subject = "Appointment Confirmation"
         message = (
-            f"Dear {instance.client.profile.first_name},\n\n"
+            f"Dear {instance.client.first_name},\n\n"
             f"Your appointment has been confirmed.\n"
             f"Date: {instance.time_slots.date.date}\n"
             f"Time: {instance.time_slots.start_time}\n\n"
