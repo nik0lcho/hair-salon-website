@@ -38,8 +38,9 @@ class Schedule(models.Model):
     day_of_week = models.CharField(
         max_length=10,
         choices=WEEKDAYS,
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
+        unique=True,
         help_text="The recurring day of the week this schedule applies to. Leave blank for a specific date."
     )
     start_time = models.TimeField(help_text="Start time of the working hours.")
