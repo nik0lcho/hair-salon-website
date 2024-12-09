@@ -1,5 +1,6 @@
 from django import forms
 from .models import AppUser
+from django.contrib.auth.models import Group
 
 
 class AppUserCreationForm(forms.ModelForm):
@@ -59,6 +60,11 @@ class AppUserChangeForm(forms.ModelForm):
             user.is_staff = False
             user.is_superuser = False
 
+        group_name = role.capitalize()
+        group, created = Group.objects.get_or_create(name=group_name)
+        user.groups.set([group])
+
         if commit:
             user.save()
+
         return user
