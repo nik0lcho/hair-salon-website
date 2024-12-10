@@ -94,15 +94,3 @@ html, body {
     font-size: 1.1em;
     color: #555;
 }
-
-/* Footer */
-.footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    width: 100%;
-    position: relative;
-    bottom: 0;
-    flex-shrink: 0; /* Prevent footer from shrinking */
-}

@@ -9,18 +9,6 @@ class ScheduleAdmin(admin.ModelAdmin):
     search_fields = ('day_of_week',)
     actions = ['activate_schedules', 'deactivate_schedules']
 
-    def has_view_permission(self, request, obj=None):
-        return request.user.is_superuser or request.user.groups.filter(name='Staff').exists()
-
-    def has_change_permission(self, request, obj=None):
-        return request.user.is_superuser
-
-    def has_add_permission(self, request):
-        return request.user.is_superuser
-
-    def has_delete_permission(self, request, obj=None):
-        return request.user.is_superuser
-
 
 @admin.register(TimeSlot)
 class TimeSlotAdmin(admin.ModelAdmin):
@@ -28,14 +16,6 @@ class TimeSlotAdmin(admin.ModelAdmin):
     list_filter = ('date', 'is_available',)
     search_fields = ('date',)
     ordering = ('date', 'start_time')
-
-    def has_view_permission(self, request, obj=None):
-        return request.user.is_superuser or request.user.groups.filter(name='Staff').exists()
-
-    def get_readonly_fields(self, request, obj=None):
-        if not request.user.is_superuser:
-            return ['date', 'start_time']  # Non-superusers can only view these
-        return super().get_readonly_fields(request, obj)
 
 
 @admin.register(Appointment)
@@ -48,18 +28,6 @@ class AppointmentAdmin(admin.ModelAdmin):
               'admin/js/fetchTimeSlots.js')
 
     actions = ['free_appointment',]
-
-    def has_view_permission(self, request, obj=None):
-        return request.user.is_superuser or request.user.groups.filter(name='Staff').exists()
-
-    def has_change_permission(self, request, obj=None):
-        return request.user.is_superuser
-
-    def has_add_permission(self, request):
-        return request.user.is_superuser
-
-    def has_delete_permission(self, request, obj=None):
-        return False
 
     def free_appointment(modeladmin, request, queryset):
         # Iterate through all selected appointments

@@ -57,29 +57,29 @@ class Schedule(models.Model):
     def __str__(self):
         return f"{self.day_of_week}: {self.start_time} - {self.end_time}"
 
-    def generate_time_slots(self, days_ahead=30):
-        from_date = date.today()
-        end_date = from_date + timedelta(days=days_ahead)
-
-        for current_date in (from_date + timedelta(days=i) for i in range((end_date - from_date).days + 1)):
-            # Only process dates that match the schedule's day_of_week
-            if current_date.strftime('%A') != self.day_of_week:
-                continue
-
-            # Create or retrieve the AvailableDate
-
-            available_date, created = AvailableDate.objects.get_or_create(date=current_date)
-
-            # Generate time slots for this AvailableDate
-            current_time = datetime.combine(available_date.date, self.start_time)
-            end_time = datetime.combine(available_date.date, self.end_time)
-
-            while current_time + self.slot_duration <= end_time:
-                TimeSlot.objects.get_or_create(
-                    date=available_date,  # Linking the time slot to AvailableDate
-                    start_time=current_time.time(),
-                )
-                current_time += self.slot_duration
+    # def generate_time_slots(self, days_ahead=30):
+    #     from_date = date.today()
+    #     end_date = from_date + timedelta(days=days_ahead)
+    #
+    #     for current_date in (from_date + timedelta(days=i) for i in range((end_date - from_date).days + 1)):
+    #         # Only process dates that match the schedule's day_of_week
+    #         if current_date.strftime('%A') != self.day_of_week:
+    #             continue
+    #
+    #         # Create or retrieve the AvailableDate
+    #
+    #         available_date, created = AvailableDate.objects.get_or_create(date=current_date)
+    #
+    #         # Generate time slots for this AvailableDate
+    #         current_time = datetime.combine(available_date.date, self.start_time)
+    #         end_time = datetime.combine(available_date.date, self.end_time)
+    #
+    #         while current_time + self.slot_duration <= end_time:
+    #             TimeSlot.objects.get_or_create(
+    #                 date=available_date,  # Linking the time slot to AvailableDate
+    #                 start_time=current_time.time(),
+    #             )
+    #             current_time += self.slot_duration
 
 
 class TimeSlot(models.Model):
@@ -108,9 +108,12 @@ class TimeSlot(models.Model):
         unique_together = ('date', 'start_time',)
 
 
-@receiver(post_save, sender=Schedule)
-def generate_slots_for_schedule(sender, instance, created, **kwargs):
-    instance.generate_time_slots()
+# ToDo да проверя как точно работи генеаратора трябва да е автоматичен
+#  и да се трият старите time-slotove и при триене на timesslotss да не оставям available date
+# @receiver(post_save, sender=Schedule)
+# def manage_slots_for_schedule(sender, instance, created, **kwargs):
+#     instance.generate_time_slots()
+#     instance.delete_old_time_slots()
 
 
 class Appointment(models.Model):

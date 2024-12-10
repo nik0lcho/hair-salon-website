@@ -1,0 +1,83 @@
+/* General styles for the profile view */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9; /* Light gray background */
+}
+
+/* Profile container */
+.profile-container {
+    max-width: 600px;
+    margin-top: 200px; /* Move the container further down */
+    margin-bottom: 40px; /* Add specific bottom spacing */
+    margin-left: auto;
+    margin-right: auto; /* Center horizontally */
+    padding: 20px;
+    background-color: #fff; /* White background for the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    border-radius: 8px; /* Rounded corners */
+    text-align: center;
+}
+
+/* Title */
+.profile-container h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333; /* Dark text */
+}
+
+/* Profile card */
+.profile-card {
+    padding: 15px;
+    font-size: 1.2em;
+    line-height: 1.5;
+    color: #555; /* Slightly lighter text for details */
+}
+
+/* Highlight key details */
+.profile-card strong {
+    color: #222; /* Make labels slightly darker */
+}
+
+/* Profile Actions */
+.profile-actions {
+    margin-top: 20px; /* Space between profile card and buttons */
+    display: flex; /* Use flexbox for layout */
+    justify-content: center; /* Center the buttons horizontally */
+    gap: 15px; /* Add space between the buttons */
+}
+
+/* Buttons */
+.btn {
+    padding: 10px 20px; /* Add some padding for the button size */
+    margin: 5px; /* Add margin around the buttons */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Round button corners */
+    cursor: pointer; /* Add pointer cursor on hover */
+    text-decoration: none; /* Remove underline for links */
+    font-size: 1em; /* Standard font size */
+    font-weight: bold; /* Bold text for buttons */
+    color: white; /* White text color */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
+}
+
+/* Button styles */
+.cancel-btn {
+    background-color: #6C757D; /* Gray color for Cancel */
+}
+
+.save-btn {
+    background-color: #28A745; /* Green color for Save */
+}
+
+/* Hover effects for all buttons */
+.btn:hover {
+    background-color: rgba(0, 0, 0, 0.2); /* Add a slight dark overlay on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Focus outline for accessibility */
+.btn:focus {
+    outline: 3px solid rgba(0, 123, 255, 0.5); /* Add focus outline for better visibility */
+}

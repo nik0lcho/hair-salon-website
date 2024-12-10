@@ -8,6 +8,8 @@ from hairSalon.common.models import Service
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 
+from hairSalon.usersApp.managers import AppUserManager
+
 
 class AppUser(AbstractBaseUser, PermissionsMixin):
 
@@ -34,7 +36,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
         help_text="Designates the role of the user.",
     )
 
-    objects = UserManager()
+    objects = AppUserManager()
 
     # Optional fields for user management
     first_name = models.CharField(max_length=150, blank=True)

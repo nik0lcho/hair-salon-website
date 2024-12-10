@@ -31,7 +31,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost').split(',')
 PROJECT_APPS = [
     'hairSalon.common',
     'hairSalon.usersApp',
-    'hairSalon.hairDressersApp'
+    'hairSalon.hairDressersApp',
 ]
 
 
@@ -116,10 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
+TIME_ZONE = 'Europe/Sofia'
 USE_TZ = True
 
 

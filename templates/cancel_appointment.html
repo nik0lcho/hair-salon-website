@@ -1,0 +1,15 @@
+{% for appointment in appointments %}
+    <li class="appointment-item">
+        <div class="appointment-details">
+            <strong>Service:</strong> {{ appointment.service.name }}<br>
+            <strong>Date:</strong> {{ appointment.date.date }}<br>
+            <strong>Time:</strong> {{ appointment.time_slots.start_time }} - {{ appointment.time_slots.end_time }}<br>
+        </div>
+        <div class="cancel-section">
+            <form method="post" action="{% url 'cancel_appointment' appointment.id %}" class="cancel-form">
+                {% csrf_token %}
+                <button type="submit" class="btn cancel-btn">Cancel Appointment</button>
+            </form>
+        </div>
+    </li>
+{% endfor %}

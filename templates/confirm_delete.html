@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Delete Profile{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/delete-profile.css' %}">
+
+<div class="profile-container">
+    <h1>Are you sure you want to delete your profile?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn delete-btn">Yes, Delete</button>
+        <a href="{% url 'profile' %}" class="btn cancel-btn">Cancel</a>
+    </form>
+</div>
+{% endblock %}
