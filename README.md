@@ -4,7 +4,7 @@ how to populate the database
 
 1) conncet to a database
 
-2) make migrations
+2) migrate
 
 3) run utils/populate_schedule.py
 
