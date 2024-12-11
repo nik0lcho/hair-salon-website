@@ -1,6 +1,8 @@
 Glamour look - Hair salon website
 
-steps to set up the project
+steps to run the project
+
+----------------------------
 
 password protected .env file --> https://e.pcloud.link/publink/show?code=XZ4gzwZdLkntQwenBYDjMx7jjzBJXl254JX
 
