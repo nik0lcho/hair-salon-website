@@ -1,14 +1,18 @@
 from django.http import JsonResponse
-from django.views.generic import ListView, DeleteView
-from .models import TimeSlot, AvailableDate, Schedule, Appointment
-from django.shortcuts import redirect
+from django.utils import timezone
+from django.views.generic import ListView, View
+from .models import TimeSlot, AvailableDate, Schedule
+from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from django.urls import reverse_lazy
-from django.utils.timezone import now
 from datetime import datetime, timedelta
 import pytz
-
+from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+from .models import Appointment
+from .forms import AppointmentForm
 from datetime import date
+from .templatetags.custom_filters import can_display_appointment
 
 
 def get_available_dates(request):
@@ -76,6 +80,7 @@ def get_timeslots(request):
     except (ValueError, TypeError):
         return JsonResponse({'error': 'Invalid date ID or no time slots available.'}, status=400)
 
+
 class ScheduleListView(ListView):
     model = Schedule
     template_name = "about.html"  # Specify your template
@@ -103,51 +108,85 @@ class AppointmentListView(ListView):
         # Filter appointments for the logged-in user
         return Appointment.objects.filter(client=self.request.user)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        appointments = context['appointments']
 
-class CancelAppointmentView(DeleteView):
-    model = Appointment
-    template_name = 'cancel_appointment.html'  # Optional confirmation page
-    success_url = reverse_lazy('appointments')
+        # Add the 'displayed' flag to the context
+        displayed = False
+
+        # Check if any appointment passes the can_display_appointment filter
+        for appointment in appointments:
+            if can_display_appointment(appointment):
+                displayed = True
+                break  # No need to continue checking once we find one appointment to display
+
+        # Add the 'displayed' flag to the context
+        context['displayed'] = displayed
+
+        return context
+
+
+class CancelAppointmentView(View):
+    template_name = 'cancel_appointment.html'  # Confirmation page template
+    success_url = reverse_lazy('appointments')  # Redirect after successful cancel
 
     def get(self, request, *args, **kwargs):
         """
-        Optionally confirm before deletion.
+        Load the confirmation page.
         """
-        appointment = self.get_object()
-        appointment_datetime = datetime.combine(appointment.date.date, appointment.time_slots.start_time)
+        appointment = get_object_or_404(Appointment, id=kwargs.get('appointment_id'))
 
-        # Check if the appointment can still be canceled
-        if appointment_datetime - now() < timedelta(hours=2):
-            messages.error(self.request, "You cannot cancel this appointment less than 2 hours before its start time.")
-            return redirect('appointments')
-
-        return super().get(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        """
-        Cancel the appointment and free the associated time slot.
-        """
-        appointment = self.get_object()
-
-        # Ensure the user is authorized
-        if appointment.client != self.request.user:
+        # Ensure the user is authorized to cancel the appointment
+        if appointment.client != request.user:
             messages.error(request, "You are not authorized to cancel this appointment.")
             return redirect('appointments')
 
-        # Check the time restriction
+        return render(request, self.template_name, {'appointment': appointment})
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handle the cancellation confirmation.
+        """
+        appointment = get_object_or_404(Appointment, id=kwargs.get('appointment_id'))
+
+        # Ensure the user is authorized to cancel the appointment
+        if appointment.client != request.user:
+            messages.error(request, "You are not authorized to cancel this appointment.")
+            return redirect('appointments')
+
+        # Calculate appointment datetime
         appointment_datetime = datetime.combine(appointment.date.date, appointment.time_slots.start_time)
-        if appointment_datetime - now() < timedelta(hours=2):
+        appointment_datetime = timezone.make_aware(appointment_datetime, timezone.get_current_timezone())
+
+        # Check if it's too late to cancel (2 hours before the appointment)
+        if appointment_datetime - timezone.now() < timedelta(hours=2):
             messages.error(request, "You cannot cancel this appointment less than 2 hours before its start time.")
             return redirect('appointments')
 
         # Free the associated time slot
-        time_slots = appointment.time_slots
-        time_slots.is_available = True
-        time_slots.save()
+        time_slot = appointment.time_slots
+        time_slot.is_available = True
+        time_slot.save()
 
         # Delete the appointment
         appointment.delete()
 
-        # Notify the user
+        # Notify the user of successful cancellation
         messages.success(request, "Appointment canceled successfully, and the time slot is now available.")
         return redirect(self.success_url)
+
+
+class MakeAppointmentView(CreateView):
+    model = Appointment
+    form_class = AppointmentForm
+    template_name = 'make_appointment.html'
+    success_url = reverse_lazy('appointments')  # Redirect to a page listing all appointments
+
+    def form_valid(self, form):
+        form.instance.client = self.request.user  # Automatically assign the current user as the client
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Please correct the errors below.")
+        return self.render_to_response(self.get_context_data(form=form))

@@ -1,3 +1,38 @@
+{#{% extends "base.html" %}#}
+{#{% load static %}#}
+{##}
+{#{% block title %}About{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#<link rel="stylesheet" href="{% static 'styles/about.css' %}">#}
+{#<div class="about-section">#}
+{#    <h1>Working Hours</h1>#}
+{#    <ul class="working-hours">#}
+{#        {% for schedule in schedules %}#}
+{#            <li>#}
+{#                <span class="day">{{ schedule.day_of_week }}</span>#}
+{#                <span class="time">#}
+{#                    {{ schedule.start_time|time:"H:i" }} - {{ schedule.end_time|time:"H:i" }}#}
+{#                </span>#}
+{#            </li>#}
+{#        {% empty %}#}
+{#            <p>No working hours available at this time.</p>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{#    <h1>Contacts</h1>#}
+{#    <ul class="contacts">#}
+{#        <li>#}
+{#            <span class="icon">📞</span>#}
+{#            <span class="text">+359 123456789</span>#}
+{#        </li>#}
+{#        <li>#}
+{#            <span class="icon">✉️</span>#}
+{#            <span class="text">glamourlook.supp@gmail.com</span>#}
+{#        </li>#}
+{#    </ul>#}
+{#</div>#}
+{#{% endblock %}#}
+
 {% extends "base.html" %}
 {% load static %}
 
@@ -19,6 +54,7 @@
             <p>No working hours available at this time.</p>
         {% endfor %}
     </ul>
+
     <h1>Contacts</h1>
     <ul class="contacts">
         <li>
@@ -30,5 +66,12 @@
             <span class="text">glamourlook.supp@gmail.com</span>
         </li>
     </ul>
+
+    <h1>Policy and Terms</h1>
+    <div class="policy-terms">
+        <p>
+            Clients can cancel their appointments up to <strong>2 hours before</strong> the start time
+        </p>
+    </div>
 </div>
 {% endblock %}

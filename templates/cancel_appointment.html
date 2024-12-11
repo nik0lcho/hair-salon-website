@@ -1,15 +1,28 @@
-{% for appointment in appointments %}
-    <li class="appointment-item">
-        <div class="appointment-details">
-            <strong>Service:</strong> {{ appointment.service.name }}<br>
-            <strong>Date:</strong> {{ appointment.date.date }}<br>
-            <strong>Time:</strong> {{ appointment.time_slots.start_time }} - {{ appointment.time_slots.end_time }}<br>
-        </div>
-        <div class="cancel-section">
-            <form method="post" action="{% url 'cancel_appointment' appointment.id %}" class="cancel-form">
-                {% csrf_token %}
-                <button type="submit" class="btn cancel-btn">Cancel Appointment</button>
-            </form>
-        </div>
-    </li>
-{% endfor %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cancel Appointment{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'styles/cancel-appointment.css' %}">
+
+    <div class="profile-container">
+        <h1>Are you sure you want to cancel this appointment?</h1>
+        <ul>
+            <li class="appointment-item">
+                <div class="appointment-details">
+                    <strong>Service:</strong> {{ appointment.service.name }}<br>
+                    <strong>Date:</strong> {{ appointment.date.date }}<br>
+                    <strong>Time:</strong> {{ appointment.time_slots.start_time }}<br>
+                </div>
+                <div class="cancel-section">
+                    <form method="post" action="{% url 'cancel_appointment' appointment.id %}" class="cancel-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn delete-btn">Yes, Cancel Appointment</button>
+                        <a href="{% url 'appointments' %}" class="btn cancel-btn">Cancel</a>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
+{% endblock %}

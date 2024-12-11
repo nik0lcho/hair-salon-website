@@ -1,6 +1,10 @@
-from django import forms
+from django.contrib.auth.hashers import make_password
+
 from .models import AppUser
 from django.contrib.auth.models import Group
+from django import forms
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 
 
 class AppUserCreationForm(forms.ModelForm):
@@ -68,3 +72,45 @@ class AppUserChangeForm(forms.ModelForm):
             user.save()
 
         return user
+
+
+class RegisterForm(forms.ModelForm):
+    email = forms.EmailField(max_length=255, required=True, label="Email")
+    password = forms.CharField(widget=forms.PasswordInput, label="Password")
+
+    class Meta:
+        model = AppUser
+        fields = ('email', 'password', 'first_name', 'last_name')
+
+    def save(self, commit=True):
+        # Create a new user instance but don't save to the database yet
+        user = super().save(commit=False)
+
+        # Hash the password before saving
+        user.password = make_password(self.cleaned_data['password'])
+
+        # Save the user instance if commit is True
+        if commit:
+            user.save()
+
+        return user
+
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(max_length=255, required=True, label="Email")
+    password = forms.CharField(widget=forms.PasswordInput, required=True, label="Password")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+
+        # Authenticate the user using email and password
+        user = authenticate(email=email, password=password)
+
+        if user is None:
+            raise forms.ValidationError("Invalid email or password.")
+
+        # Attach the authenticated user to the form data for access in the view
+        cleaned_data['user'] = user
+        return cleaned_data

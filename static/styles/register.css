@@ -1,0 +1,109 @@
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* White background for the page */
+    color: #333; /* Dark gray text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* Full viewport height */
+}
+
+/* Profile Container */
+.profile-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto; /* Center horizontally */
+    padding: 30px 20px;
+    background-color: #f4f7fc; /* Light gray background for the form */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    box-sizing: border-box;
+}
+
+/* Title */
+.profile-container h1 {
+    text-align: center;
+    font-size: 2em;
+    color: #555; /* Medium gray color for the title */
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+.profile-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Spacing between form elements */
+}
+
+.profile-container form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555; /* Medium gray color for labels */
+}
+
+.profile-container form input[type="password"],
+.profile-container form input[type="email"],
+.profile-container form input[type="text"],
+.profile-container form select,
+.profile-container form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding and border in the element's width */
+    background-color: #f9f9f9; /* Very light gray input background */
+}
+
+.profile-container form input:focus,
+.profile-container form select:focus,
+.profile-container form textarea:focus {
+    border-color: #6c757d; /* Medium gray border for focus state */
+    outline: none;
+    box-shadow: 0 0 4px rgba(108, 117, 125, 0.4); /* Subtle gray shadow for focus */
+}
+
+/* Save Button */
+.profile-container .btn.save-btn {
+    padding: 12px 20px;
+    background-color: #6c757d; /* Medium gray for Register */
+    color: white; /* White text */
+    font-size: 1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Save Button Hover Effects */
+.profile-container .btn.save-btn:hover {
+    background-color: #5a6268; /* Darker gray for hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Form Input Styling */
+.profile-container form p {
+    margin: 0;
+}
+
+/* Django Forms: Error Messages */
+.profile-container .errorlist {
+    color: #dc3545; /* Red for errors */
+    font-size: 0.9em;
+    margin: 5px 0;
+}
+
+.profile-container .errorlist li {
+    list-style: none; /* Remove bullet points */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 20px 15px;
+    }
+}

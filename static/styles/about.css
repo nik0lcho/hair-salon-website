@@ -31,12 +31,13 @@ html, body {
     max-width: 600px;
     margin: 0 auto; /* Center horizontally */
     text-align: left; /* Align text to the left */
-    margin-bottom: 30px; /* Space between working hours and contacts */
     background-color: #ffffff; /* White background for working hours */
     padding: 20px; /* Padding inside the box */
     border-radius: 8px; /* Rounded corners for a soft box effect */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow around the box */
+    margin-bottom: 40px; /* Space between working hours and contacts */
 }
+
 
 /* Working hours list items */
 .working-hours li {
@@ -71,6 +72,7 @@ html, body {
     border-radius: 8px; /* Rounded corners for a soft box effect */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow around the box */
     flex-grow: 1; /* Allow this section to grow and fill available space */
+    margin-bottom: 40px;
 }
 
 /* Contacts list items */
@@ -93,4 +95,34 @@ html, body {
 .contacts .text {
     font-size: 1.1em;
     color: #555;
+}
+
+/* Policy and Terms Section - soft box */
+/* Policy and Terms Section - soft box */
+.policy-terms {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the terms */
+    max-width: 600px; /* Optional: Limit the width of the terms section */
+    margin: 0 auto; /* Center horizontally */
+    background-color: #ffffff; /* White background for the policy section */
+    padding: 20px; /* Padding inside the box */
+    border-radius: 8px; /* Rounded corners for a soft box effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow around the box */
+}
+
+/* Policy text */
+.policy-terms p {
+    text-align: center; /* Center the paragraph text */
+    color: #333;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+}
+
+.policy-heading {
+    margin-bottom: 0px; /* Space between the heading and the content */
 }

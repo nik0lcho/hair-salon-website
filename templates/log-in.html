@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'styles/log-in.css' %}">
+    <div class="login-container">
+        <h1 class="login-title">Log In</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_email">Email:</label>
+                {{ form.email }}
+            </div>
+            <div class="form-group">
+                <label for="id_password">Password:</label>
+                {{ form.password }}
+            </div>
+            {% if form.non_field_errors %}
+            <div class="error-messages">
+                <ul>
+                    {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Log In</button>
+            </div>
+        </form>
+        <div class="register-link">
+            <p>Don't have an account?</p>
+            <a href="{% url 'register' %}" class="btn btn-secondary">Register</a>
+        </div>
+    </div>
+{% endblock %}

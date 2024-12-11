@@ -7,12 +7,12 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hairSalon.settings')
 django.setup()
 
 # Import required models
-from hairSalon.hairDressersApp.models import Schedule, AvailableDate, TimeSlot
+from hairSalon.hairDressersApp.models import Schedule, AvailableDate, TimeSlot, Appointment
 
 
 def delete_old_time_slots_and_dates():
     """
-    Deletes time slots and associated AvailableDate objects for dates before today.
+    Deletes time slots, associated AvailableDate objects, and related appointments for dates before today.
     """
     yesterday = date.today() - timedelta(days=1)
 
@@ -20,6 +20,11 @@ def delete_old_time_slots_and_dates():
     old_dates = AvailableDate.objects.filter(date__lte=yesterday)
 
     for old_date in old_dates:
+        # Delete any appointments related to this AvailableDate
+        appointments = Appointment.objects.filter(time_slots__date=old_date)
+        for appointment in appointments:
+            appointment.delete()
+
         # Delete all TimeSlots related to this AvailableDate
         old_date.time_slots.all().delete()
 

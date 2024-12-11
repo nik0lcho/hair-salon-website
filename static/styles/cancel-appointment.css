@@ -1,4 +1,4 @@
-/* General styles for the profile view */
+/* General styles for the cancel appointment page */
 body {
     margin: 0;
     padding: 0;
@@ -27,48 +27,48 @@ body {
     color: #333; /* Dark text */
 }
 
-/* Profile card */
-.profile-card {
-    padding: 15px;
+/* Appointment Details */
+.appointment-details {
     font-size: 1.2em;
-    line-height: 1.5;
-    color: #555; /* Slightly lighter text for details */
+    color: #555;
+    margin-bottom: 20px;
 }
 
-/* Highlight key details */
-.profile-card strong {
-    color: #222; /* Make labels slightly darker */
+/* Appointment item */
+.appointment-item {
+    margin-bottom: 20px;
 }
 
-/* Profile Actions */
-.profile-actions {
-    margin-top: 20px; /* Space between profile card and buttons */
-    display: flex; /* Use flexbox for layout */
-    justify-content: center; /* Center the buttons horizontally */
+/* Cancel Section */
+.cancel-section {
+    margin-top: 20px; /* Space between the details and the buttons */
+    display: flex;
+    justify-content: center;
     gap: 15px; /* Add space between the buttons */
 }
 
 /* Buttons */
 .btn {
-    padding: 10px 20px; /* Add some padding for the button size */
-    margin: 5px; /* Add margin around the buttons */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Round button corners */
-    cursor: pointer; /* Add pointer cursor on hover */
-    text-decoration: none; /* Remove underline for links */
-    font-size: 1em; /* Standard font size */
-    font-weight: bold; /* Bold text for buttons */
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
     color: white; /* White text color */
     transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
 }
 
-/* Button styles */
-.cancel-btn {
-    background-color: #6C757D; /* Gray color for Cancel */
+/* Delete button - red */
+.delete-btn {
+    background-color: #D9534F; /* Red color for delete */
 }
 
-.save-btn {
-    background-color: #28A745; /* Green color for Save */
+/* Cancel button - gray */
+.cancel-btn {
+    background-color: #6C757D; /* Gray color for Cancel */
 }
 
 /* Hover effects for all buttons */
@@ -80,4 +80,10 @@ body {
 /* Focus outline for accessibility */
 .btn:focus {
     outline: 3px solid rgba(0, 123, 255, 0.5); /* Add focus outline for better visibility */
+}
+
+/* Remove list bullets from the unordered list */
+ul {
+    list-style-type: none;  /* Remove bullets from the list */
+    padding-left: 0;  /* Remove any default padding from the left side */
 }

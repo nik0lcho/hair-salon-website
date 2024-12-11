@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{{% extends "base.html" %}
 {% load static %}
 {% load custom_filters %}
 
@@ -12,19 +12,25 @@
         {% if appointments %}
             <ul class="appointments-list">
                 {% for appointment in appointments %}
-                    <li class="appointment-item">
-                        <div class="appointment-details">
-                            <strong>Service:</strong> {{ appointment.service.name }}<br>
-                            <strong>Date:</strong> {{ appointment.date.date }}<br>
-                            <strong>Time:</strong> {{ appointment.time_slots.start_time }}<br>
-                        </div>
-                        <!-- Use the custom filter to check if the appointment can be canceled -->
-                        {% if appointment|can_cancel %}
-                            <a href="{% url 'cancel_appointment' appointment.id %}" class="btn cancel-btn">Cancel Appointment</a>
-                        {% endif %}
-                    </li>
+                    {% if appointment|can_display_appointment %}
+                        <li class="appointment-item">
+                            <div class="appointment-details">
+                                <strong>Service:</strong> {{ appointment.service.name }}<br>
+                                <strong>Date:</strong> {{ appointment.date.date }}<br>
+                                <strong>Time:</strong> {{ appointment.time_slots.start_time }}<br>
+                            </div>
+                            <!-- Use the custom filter to check if the appointment can be canceled -->
+                            {% if appointment|can_cancel %}
+                                <a href="{% url 'cancel_appointment' appointment.id %}" class="btn cancel-btn">Cancel Appointment</a>
+                            {% endif %}
+                        </li>
+                    {% endif %}
                 {% endfor %}
             </ul>
+
+            {% if not displayed %}
+                <p>You don't have any appointments scheduled.</p>
+            {% endif %}
         {% else %}
             <p>You don't have any appointments scheduled.</p>
         {% endif %}

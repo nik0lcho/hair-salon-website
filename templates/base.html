@@ -19,9 +19,9 @@
             {% if user.is_authenticated %}
                 <a href="/profile/">Profile</a>
                 <a href="/appointments/">My Appointments</a>
-                <a href="/book/">Book Now</a>
+                <a href="{% url 'make_appointment' %}">Book Now</a>
             {% else %}
-                <a href="/register/">Register</a>
+                <a href={% url 'log-in' %}>Log in</a>
             {% endif %}
         </div>
     </nav>

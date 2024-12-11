@@ -15,8 +15,8 @@
         </div>
     </div>
     <div class="profile-actions">
+        <a href="{% url 'log-out' %}" class="btn logout-btn">Log Out</a>
         <a href="{% url 'edit' %}" class="btn edit-btn">Edit Profile</a>
-        <a href="{% url 'delete' %}" class="btn delete-btn"> Delete Profile </a>
+        <a href="{% url 'delete' %}" class="btn delete-btn">Delete Profile</a>
     </div>
-
 {% endblock %}
