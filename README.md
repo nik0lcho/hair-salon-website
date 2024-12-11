@@ -1,18 +1,14 @@
 Glamour look - Hair salon website
 
-how to populate the database with timeslots 
+how to populate the database
 
 1) conncet to a database
 
 2) make migrations
 
-3) createsuperuser
+3) run utils/populate_schedule.py
 
-4) open the admin panel
-
-5) create a schedule 
-
-6) open utils/run_daily.py and run it
+4) run utils/my_daily_task.py
 
 password protected .env file  --> https://e.pcloud.link/publink/show?code=XZ4gzwZdLkntQwenBYDjMx7jjzBJXl254JX
 
