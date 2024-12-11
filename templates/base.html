@@ -26,7 +26,7 @@
                     <a href="/salon-appointments/">Salon's Appointments</a>
                 {% endif %}
                 
-                {% if user.role == 'client' or user.role == 'admin' or user.role == staff %}
+                {% if user.role == 'client' or user.role == 'admin' or user.role == 'staff' %}
                     <a href="{% url 'make_appointment' %}">Book Now</a>
                 {% endif %}
             {% else %}
