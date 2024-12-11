@@ -1,6 +1,6 @@
 Glamour look - Hair salon website
 
-how to populate the database
+steps to set up the project
 
 1) conncet to a database
 
