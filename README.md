@@ -2,7 +2,7 @@ Glamour look - Hair salon website
 
 how to populate the database with timeslots 
 
-1) conncet a database
+1) conncet to a database
 
 2) make migrations
 
