@@ -17,3 +17,15 @@ password: Softuni student number
 4) open `utils/my_daily_task.py` and run it
 
 5) open `utils/populate_services.py` and run it
+
+----------------------------
+
+the project contins different roles
+
+admin --> has superuser
+
+staff --> can access the admin, but has limited permissions
+
+hairdresser --> cannot access the admin however in the site he can keep track of all appointments made but cannot make any
+
+client --> cannot access the admin, in the site he can see his appointments and manage them create/cancel (if possible check the terms and policy of the hair salon under working hours)
