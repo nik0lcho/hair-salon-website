@@ -33,3 +33,7 @@ client --> cannot access the admin, in the site he can see his appointments and 
 note: when registering a new user he automatically gets the client role if you want to change his role you can do so through the admin with superuser permissions
 
 ----------------------------
+
+the `utils/run_daily.py` can be ran in the background to manage the database. It activates itself once a day at 00:00 and creates a new available date with timeslots for it and deletes all outdated records, like old time slots, old available dates and old appointments.
+
+----------------------------
