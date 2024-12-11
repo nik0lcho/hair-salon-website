@@ -20,12 +20,15 @@ password: Softuni student number
 
 ----------------------------
 
-the project contins different roles
+the project contains different roles
 
 admin --> has superuser
 
 staff --> can access the admin, but has limited permissions
 
-hairdresser --> cannot access the admin however in the site he can keep track of all appointments made but cannot make any
+hairdresser --> cannot access the admin, in the site he can keep track of everyone's appointments but cannot make any
 
 client --> cannot access the admin, in the site he can see his appointments and manage them create/cancel (if possible check the terms and policy of the hair salon under working hours)
+
+note: when registering a new user he automatically gets the client role if you want to change his role you can do so through the admin with superuser permissions
+----------------------------
