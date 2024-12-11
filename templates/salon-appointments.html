@@ -1,0 +1,34 @@
+{{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Salon's Appointments{% endblock %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'styles/appointments.css' %}">
+
+    <div class="appointments-container">
+        <h1>Salon's Appointments</h1>
+
+        {% if appointments %}
+            <ul class="appointments-list">
+                {% for appointment in appointments %}
+                    {% if appointment|can_display_appointment %}
+                        <li class="appointment-item">
+                            <div class="appointment-details">
+                                <strong>Service:</strong> {{ appointment.service.name }}<br>
+                                <strong>Date:</strong> {{ appointment.date.date }}<br>
+                                <strong>Time:</strong> {{ appointment.time_slots.start_time }}<br>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+            {% if not displayed %}
+                <p>The salon has no appointments :(</p>
+            {% endif %}
+        {% else %}
+            <p>The salon has no appointments :(</p>
+        {% endif %}
+    </div>
+{% endblock %}

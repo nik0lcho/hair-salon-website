@@ -88,6 +88,7 @@ class RegisterForm(forms.ModelForm):
 
         # Hash the password before saving
         user.password = make_password(self.cleaned_data['password'])
+        user.role = AppUser.ROLE_CLIENT
 
         # Save the user instance if commit is True
         if commit:

@@ -4,21 +4,29 @@
     margin-top: 100px; /* Push the container 100px from the top */
     margin-left: auto; /* Center the container horizontally */
     margin-right: auto; /* Center the container horizontally */
-    padding: 10px 20px 20px; /* Add padding to the top to move heading and slots down */
+    padding: 20px; /* Add padding to the container */
     background-color: #fff;  /* White background for the container */
     border-radius: 8px;      /* Rounded corners */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    text-align: center; /* Center the title */
-    max-height: 600px;  /* Set a maximum height for the container */
-    overflow-y: auto;   /* Enable vertical scrolling if content exceeds the max height */
+    max-height: 900px;  /* Set a maximum height for the container */
+    overflow-y: auto;   /* Enable vertical scrolling for the content */
+    text-align: center; /* Center-align all text inside the container */
 }
 
 /* Title styling */
+
 .appointments-container h1 {
     font-size: 2rem;
     margin-bottom: 20px;
     color: #333;  /* Dark text for the heading */
+    position: sticky;  /* Keep the heading in view while scrolling */
+    top: 0;  /* Align to the top of the container */
+    background-color: #fff; /* Match container background for seamless appearance */
+    z-index: 1; /* Ensure it stays above other content */
+    padding: 10px 0; /* Add padding to the heading */
+    border-bottom: 1px solid #ddd; /* Optional: subtle border for separation */
 }
+
 
 /* Appointment list container */
 .appointments-list {

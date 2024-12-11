@@ -15,11 +15,20 @@
             <a href="/home">Home</a>
         </div>
         <div class="navbar-nav">
-            <a href="/about/">About</a>
+            <a href="/about/">Working hours</a>
             {% if user.is_authenticated %}
                 <a href="/profile/">Profile</a>
-                <a href="/appointments/">My Appointments</a>
-                <a href="{% url 'make_appointment' %}">Book Now</a>
+                
+                {% if user.role == 'client' or user.role == 'admin' or user.role == 'staff' %}
+                    <a href="/appointments/">My Appointments</a>
+                {% endif %}
+                {% if user.role == 'hairdresser' or user.role == 'admin' or user.role == 'staff' %}
+                    <a href="/salon-appointments/">Salon's Appointments</a>
+                {% endif %}
+                
+                {% if user.role == 'client' or user.role == 'admin' or user.role == staff %}
+                    <a href="{% url 'make_appointment' %}">Book Now</a>
+                {% endif %}
             {% else %}
                 <a href={% url 'log-in' %}>Log in</a>
             {% endif %}

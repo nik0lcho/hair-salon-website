@@ -190,3 +190,27 @@ class MakeAppointmentView(CreateView):
     def form_invalid(self, form):
         messages.error(self.request, "Please correct the errors below.")
         return self.render_to_response(self.get_context_data(form=form))
+
+
+class SalonAppointmentListView(ListView):
+    model = Appointment
+    template_name = 'salon-appointments.html'
+    context_object_name = 'appointments'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        appointments = context['appointments']
+
+        # Add the 'displayed' flag to the context
+        displayed = False
+
+        # Check if any appointment passes the can_display_appointment filter
+        for appointment in appointments:
+            if can_display_appointment(appointment):
+                displayed = True
+                break  # No need to continue checking once we find one appointment to display
+
+        # Add the 'displayed' flag to the context
+        context['displayed'] = displayed
+
+        return context
