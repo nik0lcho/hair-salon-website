@@ -3,8 +3,7 @@ from django.contrib.auth.hashers import make_password
 from .models import AppUser
 from django.contrib.auth.models import Group
 from django import forms
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 
 class AppUserCreationForm(forms.ModelForm):
@@ -13,7 +12,7 @@ class AppUserCreationForm(forms.ModelForm):
 
     class Meta:
         model = AppUser
-        fields = ('email', 'role', 'first_name', 'last_name', 'is_active')  # Do not include is_staff or is_superuser
+        fields = ('email', 'role', 'first_name', 'last_name', 'is_active')
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -27,7 +26,6 @@ class AppUserCreationForm(forms.ModelForm):
         password = self.cleaned_data["password1"]
         user.set_password(password)
 
-        # Role-based logic for setting permissions
         role = self.cleaned_data["role"]
         if role == AppUser.ROLE_ADMIN:
             user.is_staff = True
@@ -47,12 +45,11 @@ class AppUserCreationForm(forms.ModelForm):
 class AppUserChangeForm(forms.ModelForm):
     class Meta:
         model = AppUser
-        fields = ('email', 'role', 'first_name', 'last_name', 'is_active')  # Exclude is_staff and is_superuser
+        fields = ('email', 'role', 'first_name', 'last_name', 'is_active')
 
     def save(self, commit=True):
         user = super().save(commit=False)
 
-        # Role-based logic for setting permissions when changing the role
         role = self.cleaned_data["role"]
         if role == AppUser.ROLE_ADMIN:
             user.is_staff = True
@@ -83,14 +80,11 @@ class RegisterForm(forms.ModelForm):
         fields = ('email', 'password', 'first_name', 'last_name')
 
     def save(self, commit=True):
-        # Create a new user instance but don't save to the database yet
         user = super().save(commit=False)
 
-        # Hash the password before saving
         user.password = make_password(self.cleaned_data['password'])
         user.role = AppUser.ROLE_CLIENT
 
-        # Save the user instance if commit is True
         if commit:
             user.save()
 
@@ -106,12 +100,10 @@ class LoginForm(forms.Form):
         email = cleaned_data.get('email')
         password = cleaned_data.get('password')
 
-        # Authenticate the user using email and password
         user = authenticate(email=email, password=password)
 
         if user is None:
             raise forms.ValidationError("Invalid email or password.")
 
-        # Attach the authenticated user to the form data for access in the view
         cleaned_data['user'] = user
         return cleaned_data

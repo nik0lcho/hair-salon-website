@@ -3,27 +3,23 @@ document.addEventListener('DOMContentLoaded', function () {
     const timeSlotField = document.getElementById('id_time_slots'); // Ensure the ID matches your actual HTML
 
     if (dateField && timeSlotField) {
-        // Disable time slots until a valid date is selected
         timeSlotField.disabled = true;
 
         dateField.addEventListener('change', function () {
             const selectedDateId = dateField.value;
-            console.log('Selected Date ID for time slots:', selectedDateId); // Log the selected date ID
+            console.log('Selected Date ID for time slots:', selectedDateId);
 
-            // Only fetch time slots if a valid date is selected
             if (selectedDateId) {
-                fetchTimeSlots(selectedDateId); // Fetch time slots for the selected date
+                fetchTimeSlots(selectedDateId);
             } else {
-                // Reset time slot dropdown if no date is selected
                 timeSlotField.innerHTML = '<option value="">Select a date first</option>';
                 timeSlotField.disabled = true;
             }
         });
     }
 
-    // Fetch available time slots based on the selected date ID
     function fetchTimeSlots(selectedDateId) {
-        console.log('Fetching available time slots for date ID:', selectedDateId); // Log the selected date ID
+        console.log('Fetching available time slots for date ID:', selectedDateId);
 
         fetch(`/get-timeslots/?date=${selectedDateId}`, {
             method: 'GET',
@@ -38,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
-                console.log('Fetched time slots:', data); // Log the fetched time slots
+                console.log('Fetched time slots:', data);
 
                 const timeSlots = data.time_slots;
                 if (!timeSlots || !Array.isArray(timeSlots)) {
@@ -47,16 +43,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     return;
                 }
 
-                // Populate the time slot dropdown with only available slots
                 timeSlotField.innerHTML = '<option value="">Select a time slot</option>';
                 timeSlots.forEach(slot => {
                     const option = document.createElement('option');
-                    option.value = slot.id; // Use the slot ID as the value
-                    option.textContent = slot.display; // Display the slot information
+                    option.value = slot.id;
+                    option.textContent = slot.display;
                     timeSlotField.appendChild(option);
                 });
 
-                timeSlotField.disabled = false; // Enable the time slot field once options are populated
+                timeSlotField.disabled = false;
             })
             .catch(error => {
                 console.error('Error fetching time slots:', error);

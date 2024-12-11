@@ -1,50 +1,44 @@
-/* Ensure the body and html take up full height */
 html, body {
     height: 100%;
     margin: 0;
     display: flex;
-    flex-direction: column; /* Allow stacking content vertically */
+    flex-direction: column;
 }
 
-/* About Section */
 .about-section {
     text-align: center;
     padding: 50px 20px;
-    background-color: #f0f0f0; /* Light greyish background */
-    flex-grow: 1; /* Allow this section to grow and fill available space */
+    background-color: #f0f0f0;
+    flex-grow: 1;
 }
 
-/* Title of the about section */
 .about-section h1 {
     font-size: 2.5em;
     font-weight: bold;
     margin-bottom: 20px;
-    color: #333; /* Dark text */
+    color: #333;
 }
 
-/* Working Hours Section - soft box */
 .working-hours {
     list-style: none;
     margin: 0;
     padding: 0;
     font-size: 1.2em;
     max-width: 600px;
-    margin: 0 auto; /* Center horizontally */
-    text-align: left; /* Align text to the left */
-    background-color: #ffffff; /* White background for working hours */
-    padding: 20px; /* Padding inside the box */
-    border-radius: 8px; /* Rounded corners for a soft box effect */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow around the box */
-    margin-bottom: 40px; /* Space between working hours and contacts */
+    margin: 0 auto;
+    text-align: left;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
 }
 
-
-/* Working hours list items */
 .working-hours li {
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px dotted #ccc; /* Dotted separator */
+    border-bottom: 1px dotted #ccc;
 }
 
 .working-hours .day {
@@ -56,7 +50,6 @@ html, body {
     color: #555;
 }
 
-/* Contacts Section - soft box */
 .contacts {
     list-style: none;
     padding: 0;
@@ -64,30 +57,29 @@ html, body {
     font-size: 1.2em;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center the contact items */
-    max-width: 600px; /* Optional: Limit the width of the contact section */
-    margin: 0 auto; /* Center horizontally */
-    background-color: #ffffff; /* White background for contacts */
-    padding: 20px; /* Padding inside the box */
-    border-radius: 8px; /* Rounded corners for a soft box effect */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow around the box */
-    flex-grow: 1; /* Allow this section to grow and fill available space */
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
     margin-bottom: 40px;
 }
 
-/* Contacts list items */
 .contacts li {
     display: flex;
     align-items: center;
     margin: 15px 0;
     font-size: 1.1em;
     justify-content: center;
-    width: 100%; /* Ensure it uses full width within the container */
-    max-width: 600px; /* Optional: Ensure contact items do not stretch too wide */
+    width: 100%;
+    max-width: 600px;
 }
 
 .contacts .icon {
-    font-size: 1.5em; /* Keep icons large */
+    font-size: 1.5em;
     margin-right: 15px;
     color: #333;
 }
@@ -97,8 +89,6 @@ html, body {
     color: #555;
 }
 
-/* Policy and Terms Section - soft box */
-/* Policy and Terms Section - soft box */
 .policy-terms {
     list-style: none;
     padding: 0;
@@ -106,23 +96,22 @@ html, body {
     font-size: 1.2em;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center the terms */
-    max-width: 600px; /* Optional: Limit the width of the terms section */
-    margin: 0 auto; /* Center horizontally */
-    background-color: #ffffff; /* White background for the policy section */
-    padding: 20px; /* Padding inside the box */
-    border-radius: 8px; /* Rounded corners for a soft box effect */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow around the box */
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Policy text */
 .policy-terms p {
-    text-align: center; /* Center the paragraph text */
+    text-align: center;
     color: #333;
     font-size: 1.1em;
     margin-bottom: 20px;
 }
 
 .policy-heading {
-    margin-bottom: 0px; /* Space between the heading and the content */
+    margin-bottom: 0px;
 }

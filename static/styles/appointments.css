@@ -1,113 +1,88 @@
-/* General layout for the appointments container */
 .appointments-container {
-    max-width: 700px;  /* Set the maximum width */
-    margin-top: 100px; /* Push the container 100px from the top */
-    margin-left: auto; /* Center the container horizontally */
-    margin-right: auto; /* Center the container horizontally */
-    padding: 20px; /* Add padding to the container */
-    background-color: #fff;  /* White background for the container */
-    border-radius: 8px;      /* Rounded corners */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    max-height: 900px;  /* Set a maximum height for the container */
-    overflow-y: auto;   /* Enable vertical scrolling for the content */
-    text-align: center; /* Center-align all text inside the container */
+    max-width: 700px;
+    margin-top: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-height: 60vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
-
-/* Title styling */
 
 .appointments-container h1 {
     font-size: 2rem;
     margin-bottom: 20px;
-    color: #333;  /* Dark text for the heading */
-    position: sticky;  /* Keep the heading in view while scrolling */
-    top: 0;  /* Align to the top of the container */
-    background-color: #fff; /* Match container background for seamless appearance */
-    z-index: 1; /* Ensure it stays above other content */
-    padding: 10px 0; /* Add padding to the heading */
-    border-bottom: 1px solid #ddd; /* Optional: subtle border for separation */
+    color: #333;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
 }
 
-
-/* Appointment list container */
 .appointments-list {
-    list-style-type: none;  /* Remove default list bullets */
+    list-style-type: none;
     padding: 0;
     margin: 0;
+    flex-grow: 1;
+    overflow-y: auto;
 }
 
-/* Individual appointment item */
 .appointment-item {
     display: flex;
-    justify-content: space-between;  /* Space between the details and action */
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
     margin: 15px 0;
     padding: 15px;
-    background-color: #f9f9f9;  /* Light background for each appointment */
+    background-color: #f9f9f9;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);  /* Subtle shadow around each appointment */
-    flex-wrap: wrap; /* Allow items to wrap if the screen is small */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
 }
 
-/* Appointment details section */
 .appointment-details {
-    flex: 1; /* Allow details to take most of the available space */
-    text-align: left; /* Align text to the left */
+    flex: 1;
+    text-align: left;
 }
 
-/* Strong tags inside appointment details */
-.appointment-details strong {
-    font-weight: bold;
-    color: #333;
-}
-
-/* Styling for the cancel button form */
-.cancel-form {
-    flex: 0 0 180px;  /* Set a fixed width for the cancel button */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Cancel button styling */
 .cancel-btn {
     padding: 10px 20px;
-    background-color: #e74c3c; /* Red color for cancel */
+    background-color: #e74c3c;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Hover effect for the cancel button */
 .cancel-btn:hover {
-    background-color: #c0392b; /* Darker red on hover */
-    transform: translateY(-2px); /* Slight lift effect */
+    background-color: #c0392b;
+    transform: translateY(-2px);
 }
 
-/* Notification when cancellation is not allowed */
-.cancellation-not-allowed {
-    color: #e74c3c; /* Red color for cancellation notice */
-    font-size: 1rem;
-    margin-top: 10px;
+.appointments-container::-webkit-scrollbar {
+    width: 8px;
 }
 
-/* When no appointments exist */
-.appointments-container p {
-    font-size: 1.2rem;
-    color: #777; /* Lighter text for no appointments message */
+.appointments-container::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
 }
 
-/* Media queries for responsiveness */
 @media (max-width: 768px) {
-    /* Make appointment items stack vertically on smaller screens */
     .appointment-item {
-        flex-direction: column; /* Stack vertically */
-        text-align: center; /* Center-align text */
+        flex-direction: column;
+        text-align: center;
     }
 
     .cancel-form {
-        margin-top: 10px; /* Add spacing between the cancel button and appointment details */
+        margin-top: 10px;
     }
 }

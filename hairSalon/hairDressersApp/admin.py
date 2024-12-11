@@ -30,25 +30,19 @@ class AppointmentAdmin(admin.ModelAdmin):
     actions = ['free_appointment',]
 
     def free_appointment(modeladmin, request, queryset):
-        # Iterate through all selected appointments
         for appointment in queryset:
-            # Get the associated time slot
             time_slots = appointment.time_slots
 
-            # Mark the time slot as available
             time_slots.is_available = True
             time_slots.save()
 
-            # Delete the appointment
             appointment.delete()
 
-        # You can show a success message once the action is completed
         modeladmin.message_user(request, "Selected appointments have been freed and timeslots made available.")
 
     free_appointment.short_description = "Free appointments"
 
     def get_actions(self, request):
-        # Remove the delete action
         actions = super().get_actions(request)
         if 'delete_selected' in actions:
             del actions['delete_selected']

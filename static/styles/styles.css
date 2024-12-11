@@ -1,39 +1,35 @@
-/* Ensure no margin or padding around the page */
 body, html {
     margin: 0;
     padding: 0;
     height: 100%;
     font-family: Arial, sans-serif;
-    overflow: hidden; /* Prevent scrolling */
+    overflow: hidden;
 }
 
-/* Hero section */
 .hero {
-    background-image: url('/static/images/glamour-look.jpg'); /* Path to your image */
+    background-image: url('/static/images/glamour-look.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    height: 100vh; /* Full viewport height */
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
     text-align: center;
     z-index: 1;
-    padding-top: 60px; /* Make space for fixed navbar */
+    padding-top: 60px;
     box-sizing: border-box;
-    position: relative; /* Add relative positioning */
+    position: relative;
 }
 
-/* Hero content */
 .hero .hero-content {
     z-index: 10;
     padding: 20px;
 }
 
-/* Navbar styles */
 .navbar {
-    background-color: rgb(20, 20, 20); /* Slightly darker gray background */
+    background-color: rgb(20, 20, 20);
     padding: 10px 20px;
     position: fixed;
     top: 0;
@@ -47,7 +43,6 @@ body, html {
     align-items: center;
 }
 
-/* Navbar link styles */
 .navbar .navbar-brand a {
     color: white;
     text-decoration: none;
@@ -69,25 +64,23 @@ body, html {
 }
 
 .navbar .navbar-nav a:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Subtle hover effect */
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Footer styles */
 .footer {
-    background-color: rgb(20, 20, 20); /* Match navbar color */
+    background-color: rgb(20, 20, 20);
     color: white;
     text-align: center;
-    padding: 10px; /* Add some padding for the footer content */
-    position: absolute; /* Position it over the image */
+    padding: 10px;
+    position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 70px; /* Reduced height */
+    height: 70px;
     z-index: 5;
     box-sizing: border-box;
 }
 
-/* Hero section buttons */
 .hero-buttons {
     display: flex;
     gap: 20px;
@@ -97,7 +90,7 @@ body, html {
 
 .hero .navbar-nav a {
     color: white;
-    background-color: rgba(0, 0, 0, 0.6); /* Darker semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.6);
     padding: 10px 20px;
     border-radius: 5px;
     font-size: 16px;
@@ -108,13 +101,12 @@ body, html {
 }
 
 .hero .navbar-nav a:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Subtle hover effect */
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Button Styles */
 .btn {
     color: white;
-    background-color: rgba(0, 0, 0, 0.7); /* Darker semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.7);
     padding: 15px 30px;
     border-radius: 5px;
     font-size: 18px;
@@ -124,6 +116,5 @@ body, html {
 }
 
 .btn:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Subtle hover effect */
+    background-color: rgba(255, 255, 255, 0.2);
 }
-

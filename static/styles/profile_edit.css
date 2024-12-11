@@ -1,47 +1,43 @@
-/* General Styles */
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #eaeaea; /* Light gray background for the page */
-    color: #333; /* Dark gray text */
+    background-color: #eaeaea;
+    color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh; /* Full viewport height */
+    height: 80vh;
 }
 
-/* Profile Container */
 .profile-container {
     width: 100%;
     max-width: 400px;
-    margin: 0 auto; /* Center horizontally */
+    margin: 0 auto;
     padding: 30px 20px;
-    background-color: #ffffff; /* White background for the form */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
 }
 
-/* Title */
 .profile-container h1 {
     text-align: center;
     font-size: 2em;
-    color: #444; /* Dark gray text */
+    color: #444;
     margin-bottom: 20px;
 }
 
-/* Form Styles */
 .profile-container form {
     display: flex;
     flex-direction: column;
-    gap: 25px; /* Spacing between form elements */
+    gap: 25px;
 }
 
 .profile-container form label {
     font-weight: bold;
     margin-bottom: 5px;
-    color: #555; /* Medium gray for labels */
+    color: #555;
 }
 
 .profile-container form input[type="text"],
@@ -50,26 +46,25 @@ body {
 .profile-container form textarea {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc; /* Light gray border */
+    border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
-    box-sizing: border-box; /* Include padding and border in the element's width */
-    background-color: #f9f9f9; /* Very light gray input background */
+    box-sizing: border-box;
+    background-color: #f9f9f9;
 }
 
 .profile-container form input:focus,
 .profile-container form select:focus,
 .profile-container form textarea:focus {
-    border-color: #007BFF; /* Blue border for focus state */
+    border-color: #007BFF;
     outline: none;
-    box-shadow: 0 0 4px rgba(0, 123, 255, 0.4); /* Subtle blue shadow for focus */
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
 }
 
-/* Save Button */
 .profile-container .btn.save-btn {
     padding: 12px 20px;
-    background-color: #28a745; /* Green for Save */
-    color: white; /* White text */
+    background-color: #28a745;
+    color: white;
     font-size: 1em;
     font-weight: bold;
     border: none;
@@ -78,29 +73,25 @@ body {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Save Button Hover Effects */
 .profile-container .btn.save-btn:hover {
-    background-color: #218838; /* Darker green for hover */
-    transform: translateY(-2px); /* Slight lift effect */
+    background-color: #218838;
+    transform: translateY(-2px);
 }
 
-/* Form Input Styling */
 .profile-container form p {
     margin: 0;
 }
 
-/* Django Forms: Error Messages */
 .profile-container .errorlist {
-    color: #dc3545; /* Red for errors */
+    color: #dc3545;
     font-size: 0.9em;
     margin: 5px 0;
 }
 
 .profile-container .errorlist li {
-    list-style: none; /* Remove bullet points */
+    list-style: none;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .profile-container {
         padding: 20px 15px;

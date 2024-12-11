@@ -22,9 +22,6 @@ class AvailableDate(models.Model):
 
 
 class Schedule(models.Model):
-    """
-    Represents a recurring weekly schedule or a one-time specific date schedule.
-    """
     WEEKDAYS = [
         ('Monday', 'Monday'),
         ('Tuesday', 'Tuesday'),
@@ -59,9 +56,6 @@ class Schedule(models.Model):
 
 
 class TimeSlot(models.Model):
-    """
-    Represents a specific time slot on a given date.
-    """
     date = models.ForeignKey(
         to=AvailableDate,
         on_delete=models.CASCADE,
@@ -85,11 +79,8 @@ class TimeSlot(models.Model):
 
 
 class Appointment(models.Model):
-    """
-    Model for managing appointments in the salon.
-    """
     client = models.ForeignKey(
-        settings.AUTH_USER_MODEL,  # links to the custom user model (client)
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='appointments'
     )
@@ -124,10 +115,8 @@ class Appointment(models.Model):
 @receiver(post_save, sender=Appointment)
 def send_appointment_email(sender, instance, created, **kwargs):
     if created:
-        # Fetch the user's email from the related user field
         user_email = instance.client.email
 
-        # Email content
         subject = "Appointment Confirmation"
         message = (
             f"Dear {instance.client.first_name},\n\n"
@@ -137,7 +126,6 @@ def send_appointment_email(sender, instance, created, **kwargs):
             f"Thank you for booking with us!"
         )
 
-        # Send email
         try:
             send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user_email], fail_silently=False,)
             print(f"Email sent successfully to {user_email}.")

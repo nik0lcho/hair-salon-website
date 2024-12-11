@@ -24,3 +24,5 @@ urlpatterns = [
     path('home/', include('hairSalon.common.urls')),
     path('profile/', include('hairSalon.usersApp.urls'))
 ]
+
+handler403 = 'hairSalon.common.views.custom_403'

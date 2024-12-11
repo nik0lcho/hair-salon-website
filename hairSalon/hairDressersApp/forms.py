@@ -1,5 +1,5 @@
 from django import forms
-from .models import Appointment, AvailableDate, TimeSlot
+from .models import Appointment
 
 
 class AppointmentForm(forms.ModelForm):

@@ -1,56 +1,49 @@
-/* General Body Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9; /* Light background color */
+    background-color: #f9f9f9;
     margin: 0;
     padding: 0;
 }
 
-/* Heading Style */
 h1 {
     text-align: center;
-    color: #333; /* Dark color for the heading */
+    color: #333;
     font-size: 2.5em;
     margin-top: 200px;
 }
 
-/* Container for the form */
 .container {
     width: 100%;
     max-width: 600px;
-    margin: 50px auto; /* Center the container */
+    margin: 50px auto;
     padding: 20px;
-    background-color: #fff; /* White background for the form */
+    background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow around the form */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Form Elements Styling */
 form {
     display: flex;
     flex-direction: column;
 }
 
-/* Styling for form fields (select elements) */
 form .form-control {
     padding: 12px;
     margin: 10px 0;
-    border: 1px solid #ccc; /* Light border */
+    border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
     width: 100%;
-    background-color: #f8f8f8; /* Light background for the input fields */
+    background-color: #f8f8f8;
 }
 
-/* Focus effect on form fields */
 form .form-control:focus {
-    border-color: #007bff; /* Highlight border on focus */
-    outline: none; /* Remove the default outline */
+    border-color: #007bff;
+    outline: none;
 }
 
-/* Submit Button */
 button[type="submit"] {
-    background-color: #28a745; /* Green background for the button */
+    background-color: #28a745;
     color: white;
     padding: 12px;
     border: none;
@@ -59,27 +52,23 @@ button[type="submit"] {
     font-size: 16px;
     margin-top: 20px;
     transition: background-color 0.3s ease;
-    width: 100%; /* Make the button full width */
+    width: 100%;
 }
 
-/* Button hover effect */
 button[type="submit"]:hover {
-    background-color: #218838; /* Darker green on hover */
+    background-color: #218838;
 }
 
-/* Error Message Styling */
 .error-message {
     color: red;
     font-size: 14px;
     margin-bottom: 10px;
 }
 
-/* Styling for CSRF token (hidden in most cases but still part of the form) */
 input[type="hidden"] {
     display: none;
 }
 
-/* Responsive Design for smaller screens */
 @media (max-width: 600px) {
     h1 {
         font-size: 2em;

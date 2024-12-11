@@ -1,33 +1,29 @@
-/* General styles for the delete profile page */
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9; /* Light gray background */
+    background-color: #f9f9f9;
 }
 
-/* Profile container */
 .profile-container {
     max-width: 600px;
-    margin-top: 200px; /* Move the container further down */
-    margin-bottom: 40px; /* Add specific bottom spacing */
+    margin-top: 200px;
+    margin-bottom: 40px;
     margin-left: auto;
-    margin-right: auto; /* Center horizontally */
+    margin-right: auto;
     padding: 20px;
-    background-color: #fff; /* White background for the card */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    border-radius: 8px; /* Rounded corners */
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
     text-align: center;
 }
 
-/* Title */
 .profile-container h1 {
     font-size: 2em;
     margin-bottom: 20px;
-    color: #333; /* Dark text */
+    color: #333;
 }
 
-/* Buttons */
 .btn {
     padding: 10px 20px;
     margin: 5px;
@@ -37,27 +33,23 @@ body {
     text-decoration: none;
     font-size: 1em;
     font-weight: bold;
-    color: white; /* White text color */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Delete button - red */
 .delete-btn {
-    background-color: #D9534F; /* Red color for delete */
+    background-color: #D9534F;
 }
 
-/* Cancel button - gray */
 .cancel-btn {
-    background-color: #6C757D; /* Gray color for Cancel */
+    background-color: #6C757D;
 }
 
-/* Hover effects for all buttons */
 .btn:hover {
-    background-color: rgba(0, 0, 0, 0.2); /* Add a slight dark overlay on hover */
-    transform: translateY(-2px); /* Slight lift effect */
+    background-color: rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
 }
 
-/* Focus outline for accessibility */
 .btn:focus {
-    outline: 3px solid rgba(0, 123, 255, 0.5); /* Add focus outline for better visibility */
+    outline: 3px solid rgba(0, 123, 255, 0.5);
 }

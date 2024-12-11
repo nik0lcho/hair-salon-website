@@ -14,7 +14,7 @@ class AppUserAdmin(UserAdmin):
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
 
-    add_form = AppUserCreationForm  # Custom creation form
+    add_form = AppUserCreationForm
     form = AppUserChangeForm
 
     fieldsets = (

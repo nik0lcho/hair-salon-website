@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from hairSalon.hairDressersApp.models import Schedule
-
+from django.shortcuts import redirect
 
 # Create your views here.
+
 
 def home(request):
     return render(request, 'home.html')
 
 
+def custom_403(request, exception=None):
+    return redirect('home')

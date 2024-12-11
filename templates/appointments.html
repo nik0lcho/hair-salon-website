@@ -19,7 +19,6 @@
                                 <strong>Date:</strong> {{ appointment.date.date }}<br>
                                 <strong>Time:</strong> {{ appointment.time_slots.start_time }}<br>
                             </div>
-                            <!-- Use the custom filter to check if the appointment can be canceled -->
                             {% if appointment|can_cancel %}
                                 <a href="{% url 'cancel_appointment' appointment.id %}" class="btn cancel-btn">Cancel Appointment</a>
                             {% endif %}

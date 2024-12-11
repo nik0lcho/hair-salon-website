@@ -1,37 +1,33 @@
-/* General Styles */
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #f4f7fc; /* Light grayish-blue background */
-    color: #333; /* Dark gray text for readability */
+    background-color: #f4f7fc;
+    color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh; /* Full viewport height */
+    height: 80vh;
     box-sizing: border-box;
 }
 
-/* Login Container */
 .login-container {
     width: 100%;
     max-width: 400px;
     padding: 30px;
-    background-color: #fff; /* White background for the form */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
 }
 
-/* Title */
 .login-title {
     text-align: center;
     font-size: 2em;
-    color: #333; /* Dark text color */
+    color: #333;
     margin-bottom: 20px;
 }
 
-/* Form Group */
 .form-group {
     margin-bottom: 20px;
 }
@@ -39,7 +35,7 @@ body {
 .form-group label {
     font-size: 1em;
     font-weight: bold;
-    color: #555; /* Medium gray color for labels */
+    color: #555;
     display: block;
     margin-bottom: 5px;
 }
@@ -47,28 +43,26 @@ body {
 .form-group input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc; /* Light gray border for inputs */
+    border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
-    background-color: #f9f9f9; /* Light background for inputs */
+    background-color: #f9f9f9;
     box-sizing: border-box;
 }
 
-/* Focus State */
 .form-group input:focus {
-    border-color: #007bff; /* Blue border on focus */
+    border-color: #007bff;
     outline: none;
-    box-shadow: 0 0 6px rgba(0, 123, 255, 0.4); /* Subtle blue shadow on focus */
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
 }
 
-/* Error Messages */
 .error-messages {
-    color: #dc3545; /* Red for errors */
+    color: #dc3545;
     font-size: 0.9em;
 }
 
 .error-messages ul {
-    list-style-type: none; /* Remove bullets */
+    list-style-type: none;
     padding: 0;
     margin: 0;
 }
@@ -77,7 +71,6 @@ body {
     margin-bottom: 10px;
 }
 
-/* Form Actions */
 .form-actions {
     text-align: center;
 }
@@ -93,17 +86,16 @@ body {
 }
 
 .form-actions .btn-primary {
-    background-color: #007bff; /* Blue for the primary button */
+    background-color: #007bff;
     color: #fff;
     border: none;
 }
 
 .form-actions .btn-primary:hover {
-    background-color: #0056b3; /* Darker blue for hover effect */
-    transform: translateY(-2px); /* Slight lift effect */
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
-/* Register Link */
 .register-link {
     text-align: center;
     margin-top: 20px;
@@ -118,22 +110,21 @@ body {
     padding: 10px 20px;
     font-size: 1em;
     font-weight: bold;
-    color: #007bff; /* Blue color for the secondary button */
+    color: #007bff;
     background-color: transparent;
-    border: 2px solid #007bff; /* Blue border for register button */
+    border: 2px solid #007bff;
     border-radius: 5px;
-    text-decoration: none; /* Remove underline */
+    text-decoration: none;
     display: inline-block;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .register-link .btn-secondary:hover {
-    background-color: #007bff; /* Blue background on hover */
-    color: #fff; /* White text on hover */
-    transform: translateY(-2px); /* Slight lift effect */
+    background-color: #007bff;
+    color: #fff;
+    transform: translateY(-2px);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .login-container {
         padding: 20px;
