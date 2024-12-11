@@ -16,4 +16,4 @@ password: Softuni student number
 
 4) open `utils/my_daily_task.py` and run it
 
-5)
+5) open `utils/populate_services.py` and run it
