@@ -1,8 +1,13 @@
 asgiref==3.8.1
-Django~=5.1.2
+Django==5.1.2
+django-scheduler==0.10.1
+icalendar==6.1.0
 psycopg2-binary==2.9.10
+python-dateutil==2.9.0.post0
 python-decouple==3.8
+pytz==2024.2
+schedule==1.2.2
+six==1.17.0
 sqlparse==0.5.1
 typing_extensions==4.12.2
-django-scheduler~=0.10.1
-pytz~=2024.2
+tzdata==2024.2
