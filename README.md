@@ -31,4 +31,5 @@ hairdresser --> cannot access the admin, in the site he can keep track of everyo
 client --> cannot access the admin, in the site he can see his appointments and manage them create/cancel (if possible check the terms and policy of the hair salon under working hours)
 
 note: when registering a new user he automatically gets the client role if you want to change his role you can do so through the admin with superuser permissions
+
 ----------------------------
