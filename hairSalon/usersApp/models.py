@@ -54,6 +54,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
+
     @property
     def is_client(self):
         if self.role == AppUser.ROLE_CLIENT:
