@@ -17,9 +17,12 @@ A role-based web application for managing appointments in a hair salon. Built wi
 - Move the custom permissions migration file `0002_group_permissions.py` to another app’s migrations folder (e.g., `common/migrations/`), then re-run migrations:
 
 - Populate the database by running the following scripts:
-- python utils/populate_schedule.py
-- python utils/my_daily_task.py
-- python utils/populate_services.py
+
+python utils/populate_schedule.py
+
+python utils/my_daily_task.py
+
+python utils/populate_services.py
 
 ## 👥 User Roles
 
