@@ -4,25 +4,22 @@ A role-based web application for managing appointments in a hair salon. Built wi
 
 ## 🚀 Steps to Run the Project
 
-Clone the repository 
+- Clone the repository 
 
-Start a virtual environment
+- Start a virtual environment
 
-Install the requirements
+- Install the requirements
 
-Connect to a database and ensure your settings are correctly configured in `settings.py` or another config file.
+- Connect to a database and ensure your settings are correctly configured in `settings.py` or another config file.
 
-Run initial migrations:
-python manage.py makemigrations
-python manage.py migrate
+- Run initial migrations:
 
-Move the custom permissions migration file `0002_group_permissions.py` to another app’s migrations folder (e.g., `common/migrations/`), then re-run migrations:
-python manage.py migrate
+- Move the custom permissions migration file `0002_group_permissions.py` to another app’s migrations folder (e.g., `common/migrations/`), then re-run migrations:
 
-Populate the database by running the following scripts:
-python utils/populate_schedule.py
-python utils/my_daily_task.py
-python utils/populate_services.py
+- Populate the database by running the following scripts:
+- python utils/populate_schedule.py
+- python utils/my_daily_task.py
+- python utils/populate_services.py
 
 ## 👥 User Roles
 
