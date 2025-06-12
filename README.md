@@ -6,6 +6,10 @@ A role-based web application for managing appointments in a hair salon. Built wi
 
 Clone the repository 
 
+Start a virtual environment
+
+Install the requirements
+
 Connect to a database and ensure your settings are correctly configured in `settings.py` or another config file.
 
 Run initial migrations:
