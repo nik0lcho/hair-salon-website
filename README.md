@@ -1,38 +1,43 @@
-Glamour look - Hair salon website
+# 💇‍♀️ Glamour Look – Hair Salon Website
 
-steps to run the project
+A role-based web application for managing appointments in a hair salon. Built with Django.
 
-----------------------------
+## 🚀 Steps to Run the Project
+Clone the repository
 
-password protected .env file --> https://e.pcloud.link/publink/show?code=XZ4gzwZdLkntQwenBYDjMx7jjzBJXl254JX
+Connect to a database and ensure your settings are correctly configured in `settings.py` or another config file.
 
-password: Softuni student number
+Run initial migrations:
+python manage.py makemigrations
+python manage.py migrate
 
-1) conncet to a database
+Move the custom permissions migration file `0002_group_permissions.py` to another app’s migrations folder (e.g., `common/migrations/`), then re-run migrations:
+python manage.py migrate
 
-2) migrate (after the initial migrations change the location of the `0002_group_permissions.py` to an other migrations directory for example `common/migrations`. This is the custom migration that defines the permissions of the staff group and run the migrations again)
+Populate the database by running the following scripts:
+python utils/populate_schedule.py
+python utils/my_daily_task.py
+python utils/populate_services.py
 
-3) open `utils/populate_schedule.py` and run it 
+## 👥 User Roles
 
-4) open `utils/my_daily_task.py` and run it
+Admin – Full access to the admin panel  
+Staff – Limited access to the admin panel  
+Hairdresser – Cannot access admin; can view all appointments  
+Client – Cannot access admin; can view and manage their own appointments (create/cancel according to salon policy)
 
-5) open `utils/populate_services.py` and run it
+Note: When registering a new user, they are automatically assigned the Client role. To change the user’s role, use the admin panel with a superuser account.
 
-----------------------------
+## 🛠 Daily Task Automation
 
-the project contains different roles
+The `utils/run_daily.py` script is designed to be run in the background. It automatically triggers once a day at 00:00 and performs the following tasks:
 
-admin --> has superuser
+Creates new available appointment dates with time slots  
+Deletes outdated time slots, dates, and old appointments
 
-staff --> can access the admin, but has limited permissions
+This ensures the database stays clean and up-to-date with fresh availability.
 
-hairdresser --> cannot access the admin, in the site he can keep track of everyone's appointments but cannot make any
 
-client --> cannot access the admin, in the site he can see his appointments and manage them create/cancel (if possible check the terms and policy of the hair salon under working hours)
-
-note: when registering a new user he automatically gets the client role if you want to change his role you can do so through the admin with superuser permissions
-
-----------------------------
 
 the `utils/run_daily.py` can be ran in the background to manage the database. It activates itself once a day at 00:00 and creates a new available date with timeslots for it and deletes all outdated records, like old time slots, old available dates and old appointments.
 
